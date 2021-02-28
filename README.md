@@ -14,6 +14,7 @@ pip install dialogpt-chat
 - chatting with DialoGPT on terminal.
 - The model size must be one of the [small, medium, large].
 - type '/exit' if you want to exit dialogue.
+- type '/clear' if you want to clear all histories
 
 ```python
 >>> from dialobot_chat import DialoGPT
@@ -23,10 +24,12 @@ pip install dialogpt-chat
 ```
 user : Hello.
 bot : How are you?
-user : I'm good. how about you?
-bot : Good, you?
-user : Me too.
+user : I'm great. it is a nice day.
 bot : That's good.
+user : Who is CEO of Apple?
+bot : Steve Jobs.
+user : /clear
+bot : history cleared.
 user : /exit
 bot : bye.
 ```
@@ -57,12 +60,10 @@ How are you?
 ```
 user : Hello.
 bot : How are you?
-user : I'm good. how about you?
-bot : Good, you?
-user : Me too.
+user : I'm great. it is a nice day.
 bot : That's good.
-user : /exit
-bot : bye.
+user : Who is CEO of Apple?
+bot : Steve Jobs.
 ```
 <br>
 
@@ -79,6 +80,33 @@ bot : bye.
     ...more...
     user_n : {'user': [] , 'bot': []},
 }
+```
+<br>
+
+### 4. Clear dialogue histories
+```python
+>>> from dialobot_chat import DialoGPT
+>>> gpt = DialoGPT(size="large", device="cuda")
+>>> gpt.clear(user_id="USER_ID")
+```
+<br>
+
+### 5. Additional options
+- you can modify max_context_length (number of input history tokens, default is 48).
+```python
+>>> gpt = DialoGPT(size="large", device="cuda", max_context_length=96)
+```
+<br>
+
+- you can modify generation options ['num_beams', 'top_k', 'top_p'].
+```python
+>>> gpt.predict(
+...     user_id="USER_ID",
+...     text="Hello.",
+...     num_beams=5,
+...     top_k=20,
+...     top_p=0.8,
+... )
 ```
 <br><br>
 

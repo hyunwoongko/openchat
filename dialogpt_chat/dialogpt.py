@@ -2,27 +2,27 @@
 # -*- coding: utf-8 -*-
 
 import torch
-
-from typing import Any
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 
 class DialoGPT(object):
 
-    def __init__(self, size, device="cuda"):
+    def __init__(self, size, device="cuda", max_context_length=48):
         """
         Modeling class for Dialo GPT
 
         Args:
             size (str): model size. must be in ['small', 'medium', 'large']
             device (str): model device, default is 'cuda'
+            max_context_length (int): max context laength (number of input history tokens)
 
         Notes:
             format of histories:
                 self.histories = {
-                    0 : {'user': [] , 'bot': []},
-                    1 : {'user': [] , 'bot': []},
+                    user_1 : {'user': [] , 'bot': []},
+                    user_2 : {'user': [] , 'bot': []},
                     ...more...
+                    user_n : {'user': [] , 'bot': []},
                 }
 
             paper (arXiv):
@@ -32,14 +32,17 @@ class DialoGPT(object):
             >>> # chatting with DialoGPT on terminal mode.
             >>> # The model size must be one of the [small, medium, large].
             >>> # type '/exit' if you want to exit dialogue.
+            >>> # type '/clear' if you want to clear all histories
             >>> gpt = DialoGPT(size="large", device="cuda")
             >>> gpt.run()
             user : Hello.
             bot : How are you?
-            user : I'm good. how about you?
-            bot : Good, you?
-            user : Me too.
+            user : I'm great. it is a nice day.
             bot : That's good.
+            user : Who is CEO of Apple?
+            bot : Steve Jobs.
+            user : /clear
+            bot : history cleared.
             user : /exit
             bot : bye.
 
@@ -62,17 +65,20 @@ class DialoGPT(object):
                 user_n : {'user': [] , 'bot': []},
             }
 
+            >>> # you can clear all dialogue histories
+            >>> gpt.clear(user_id="USER_ID")
+
         """
 
         assert size in ['small', 'medium', 'large'], \
-            "model size must be in ['small', 'medium', 'large]"
+            "model size must be one of ['small', 'medium', 'large]"
 
         self.model_name = f"microsoft/DialoGPT-{size}"
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
         self.model = AutoModelForCausalLM.from_pretrained(self.model_name)
         self.model = self.model.eval().to(device)
 
-        self.max_context_length = 48
+        self.max_context_length = max_context_length
         self.histories = {}
         self.device = device
         self.eos = "<|endoftext|>"
@@ -80,7 +86,7 @@ class DialoGPT(object):
     @torch.no_grad()
     def predict(
             self,
-            user_id: Any,
+            user_id: str,
             text: str,
             num_beams: int = 10,  # paper's setting
             top_k: int = 10,  # paper's setting
@@ -90,7 +96,7 @@ class DialoGPT(object):
         dialogue with Dialo GPT
 
         Args:
-            user_id (Any): user id
+            user_id (str): user id
             text (str): user's input text
             num_beams (int): size of beam width
             top_k (int): K for top-K sampling
@@ -154,8 +160,7 @@ class DialoGPT(object):
     def clear(self, user_id):
         self.histories[user_id] = {'user': [], 'bot': []}
 
-    @staticmethod
-    def run():
+    def run(self):
         while True:
             _in = input("user : ")
 
@@ -163,13 +168,10 @@ class DialoGPT(object):
                 print(f"bot : bye.")
                 break
 
+            elif _in == "/clear":
+                print(f"bot : history cleared.")
+                self.clear("user_id")
+
             else:
-                _out = gpt.predict(user_id="user1", text=_in)
+                _out = self.predict(user_id="user_id", text=_in)
                 print(f"bot : {_out}")
-
-
-if __name__ == '__main__':
-    # gpt = DialoGPT("small")
-    # gpt = DialoGPT("medium")
-    gpt = DialoGPT("large", device="cpu")
-    gpt.run()
