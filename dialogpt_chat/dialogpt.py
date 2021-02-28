@@ -7,13 +7,13 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 
 class DialoGPT(object):
 
-    def __init__(self, size, device="cuda", max_context_length=48):
+    def __init__(self, size, device, max_context_length=48):
         """
         Modeling class for Dialo GPT
 
         Args:
-            size (str): model size. must be in ['small', 'medium', 'large']
-            device (str): model device, default is 'cuda'
+            size (str): model size. must be one of ['small', 'medium', 'large']
+            device (str): model device. should be one of ['cpu', 'cuda', 'cuda:n']
             max_context_length (int): max context laength (number of input history tokens)
 
         Notes:
