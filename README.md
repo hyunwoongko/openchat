@@ -1,4 +1,4 @@
-# DialoGPT chatting
+# DialoGPT Chat
 - package for chatting with DialoGPT.
 - you can check details of model here: [arXiv](https://arxiv.org/abs/1911.00536).
 <br><br>
