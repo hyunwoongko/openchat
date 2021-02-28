@@ -12,9 +12,9 @@ pip install dialogpt-chat
 ## Usage
 ### 1. Terminal mode
 - chatting with DialoGPT on terminal.
-- The model size must be one of the [small, medium, large].
-- type '/exit' if you want to exit dialogue.
-- type '/clear' if you want to clear all histories
+- The model size must be one of the `['small', 'medium', 'large']`.
+- type `/exit` if you want to exit dialogue.
+- type `/clear` if you want to clear all histories
 
 ```python
 >>> from dialobot_chat import DialoGPT
@@ -98,7 +98,7 @@ bot : Steve Jobs.
 ```
 <br>
 
-- you can modify generation options ['num_beams', 'top_k', 'top_p'].
+- you can modify generation options `['num_beams', 'top_k', 'top_p']`.
 ```python
 >>> gpt.predict(
 ...     user_id="USER_ID",
