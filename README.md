@@ -22,6 +22,7 @@ pip install openchat
 - DialoGPT : [small, medium, large]
 - BlenderBot : [small, medium, large, xlarge]
 - Coming Soon...
+
 <br><br>
 
 ## Usage
