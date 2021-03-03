@@ -4,15 +4,19 @@ with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='dialogpt-chat',
-    version='1.0.1',
-    description='Chatting with DialoGPT.',
+    name='openchat',
+    version='1.0.0',
+    description='Opensource chatting framework for generative models',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Hyunwoong Ko',
     author_email='gusdnd852@naver.com',
     url='https://github.com/hyunwoongko/dialogpt-chat',
-    install_requires=['transformers>=4.0.0'],
+    install_requires=[
+        'transformers>=4.3.0',
+        'flask',
+        "flask_cors",
+    ],
     packages=find_packages(),
     python_requires='>=3',
     package_data={},
