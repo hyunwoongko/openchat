@@ -16,6 +16,7 @@ setup(
         'transformers>=4.3.0',
         'flask',
         "flask_cors",
+        'torch',
     ],
     packages=find_packages(),
     python_requires='>=3',
