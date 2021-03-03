@@ -19,8 +19,8 @@ pip install openchat
 <br><br>
 
 ## Model Supports
-- DialoGPT : [small, medium, large]
-- BlenderBot : [small, medium, large, xlarge]
+- [DialoGPT](https://arxiv.org/abs/1911.00536) : [small, medium, large]
+- [BlenderBot](https://arxiv.org/abs/2004.13637) : [small, medium, large, xlarge]
 - Coming Soon...
 
 <br><br>
