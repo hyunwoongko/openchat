@@ -25,7 +25,7 @@ pip install openchat
 <br><br>
 
 ## Usage
-### 1. Terminal Environment
+### 1. Terminal environment
 - Chatting on terminal.
 - Type `.exit` if you want to exit dialogue.
 - Type `.clear` if you want to clear all histories.
@@ -69,7 +69,7 @@ bot : good bye.
 
 <br>
     
-#### 2.1. Write your own Environment class
+#### 2.1. Write your own environment class
 - Make your own environment class inherited from `BaseEnv`
 - And implement your own `run(model: BaseModel)` method like below.
 
