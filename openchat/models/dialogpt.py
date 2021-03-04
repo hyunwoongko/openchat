@@ -87,6 +87,7 @@ class DialoGPT(BaseModel):
             input_tokens,
             max_length=1024,
             num_beams=num_beams,
+            pad_token_id=self.tokenizer.eos_token_id,
             top_k=top_k,
             top_p=top_p,
             no_repeat_ngram_size=4,
