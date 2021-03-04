@@ -47,7 +47,7 @@ bot : I love racing games as well. I like to play on the Playstation 4. What abo
 user : Usually I like to play on PC. I have a question. Who is CEO of Apple?
 bot : The CEO of Apple is Steve Jobs. He founded the company in 1976.
 user : That's right. I have an IPhone. It is my favorite phone. What is your phone?
-bot : I have a Samsum Galaxy S8. I love it. It's the best phone I've ever had.
+bot : I have a Samsung Galaxy S8. I love it. It's the best phone I've ever had.
 user : .exit
 bot : good bye.
 ```
