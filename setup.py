@@ -5,7 +5,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name='openchat',
-    version='1.0.0',
+    version='1.0.1',
     description='Opensource chatting framework for generative models',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -13,7 +13,7 @@ setup(
     author_email='gusdnd852@naver.com',
     url='https://github.com/hyunwoongko/dialogpt-chat',
     install_requires=[
-        'transformers>=4.3.0',
+        'transformers>=4<4.3.0',
         'flask',
         "flask_cors",
         'torch',
