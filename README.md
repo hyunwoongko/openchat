@@ -78,8 +78,8 @@ bot : good bye.
 from typing import Dict
 from flask import Flask, render_template
 from flask_cors import CORS
-from openchat.envs import BaseEnv
-from openchat.models import BaseModel
+from legacy.envs import BaseEnv
+from legacy.models import BaseModel
 
 
 class WebDemoEnv(BaseEnv):
@@ -134,18 +134,18 @@ OpenChat(model="blenderbot", size="large", env=WebDemoEnv())
 - `triggered_function` should be form of `function(user_id:str, text:str)`
 
 ```python
-from openchat.envs import BaseEnv
+from legacy.envs import BaseEnv
 
 
 class YourOwnEnv(BaseEnv):
-    
+
     def __init__(self):
         super().__init__()
         self.add_keyword(".new_keyword", "message to print", self.function)
 
     def function(self, user_id: str, text: str):
         """do something !"""
-        
+
 ```
 <br><br>
 
@@ -170,12 +170,13 @@ class YourOwnEnv(BaseEnv):
 
 #### 3.3. Check histories
 - You can check all dialogue history using `self.histories`
+
 ```python
-from openchat.envs import BaseEnv
+from legacy.envs import BaseEnv
 
 
 class YourOwnEnv(BaseEnv):
-    
+
     def __init__(self):
         super().__init__()
         print(self.histories)
@@ -192,22 +193,22 @@ class YourOwnEnv(BaseEnv):
 
 #### 3.4. Clear histories
 - You can clear all dialogue histories
+
 ```python
 from flask import Flask
-from openchat.envs import BaseEnv
-from openchat.models import BaseModel
+from legacy.envs import BaseEnv
+from legacy.models import BaseModel
+
 
 class YourOwnEnv(BaseEnv):
-    
+
     def __init__(self):
         super().__init__()
         self.app = Flask(__name__)
 
     def run(self, model: BaseModel):
-        
         @self.app.route('/send/<user_id>/<text>', methods=['GET'])
         def send(user_id, text: str) -> Dict[str, str]:
-            
             self.clear(user_id, text)
             # clear all histories ! 
 

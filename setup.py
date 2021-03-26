@@ -5,7 +5,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name='openchat',
-    version='1.0.2',
+    version='1.1.0',
     description='Opensource chatting framework for generative models',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -15,8 +15,8 @@ setup(
     install_requires=[
         'transformers>=4<4.3.0',
         'flask',
-        "flask_cors",
         'torch',
+        "parlai",
     ],
     packages=find_packages(),
     python_requires='>=3',
