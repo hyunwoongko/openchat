@@ -1,4 +1,6 @@
-from parlai.core.agents import create_agent_from_model_file
+from parlai.core.agents import create_agent_from_model_file, add_datapath_and_model_args, create_agent_from_opt_file
+from parlai.core.build_data import modelzoo_path
+
 from openchat.base import ParlaiGenerationAgent, Seq2SeqLM
 
 
@@ -15,13 +17,17 @@ class RedditAgent(ParlaiGenerationAgent, Seq2SeqLM):
         else:
             raise Exception("wrong model")
 
+        option = self.set_options(
+            name=f"zoo:blender/reddit_{size}/model",
+            device=device,
+        )
+
         super().__init__(
             name=model,
             suffix="\n",
             device=device,
             maxlen=maxlen,
-            model=create_agent_from_model_file(
-                f"zoo:blender/reddit_{size}/model"),
+            model=create_agent_from_opt_file(option),
         )
 
     @staticmethod
@@ -34,3 +40,14 @@ class RedditAgent(ParlaiGenerationAgent, Seq2SeqLM):
     @staticmethod
     def default_maxlen():
         return 256
+
+
+    def set_options(self, name, device):
+        option = {
+            "no_cuda": True if "cuda" in device else False,
+        }
+
+        add_datapath_and_model_args(option)
+        datapath = option.get("datapath")
+        option['model_file'] = modelzoo_path(datapath, name)
+        return option

@@ -23,7 +23,7 @@ class TerminalEnvironment(BaseEnvironment):
         user_color=Colors.GREEN,
         bot_color=Colors.YELLOW,
         special_color=Colors.BLUE,
-        system_color=Colors.MAGENTA,
+        system_color=Colors.CYAN,
     ):
         super().__init__()
         self.user_id = "dummy_value"

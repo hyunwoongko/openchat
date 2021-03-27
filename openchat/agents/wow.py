@@ -1,4 +1,6 @@
-from parlai.core.agents import create_agent_from_model_file
+from parlai.core.agents import create_agent_from_model_file, add_datapath_and_model_args
+from parlai.core.build_data import modelzoo_path
+
 from openchat.base import WizardOfWikipediaAgent, Seq2SeqLM
 
 
@@ -33,3 +35,13 @@ class WizardOfWikipediaGenerationAgent(WizardOfWikipediaAgent, Seq2SeqLM):
     @staticmethod
     def default_maxlen():
         return 256
+
+    def set_options(self, name, device):
+        option = {
+            "no_cuda": True if "cuda" in device else False,
+        }
+
+        add_datapath_and_model_args(option)
+        datapath = option.get("datapath")
+        option['model_file'] = modelzoo_path(datapath, name)
+        return option
