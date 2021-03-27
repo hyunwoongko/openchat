@@ -25,7 +25,7 @@ def cprint(text, color=Colors.RESET, **kwargs):
 
 
 def cinput(text, color=Colors.RESET, **kwargs):
-    return input(color + text, **kwargs)
+    return input(color + text + Colors.RESET, **kwargs)
 
 
 def draw_openchat():
@@ -44,5 +44,5 @@ def draw_openchat():
     for line in logos:
         cprint(
             text=center(line),
-            color=Colors.MAGENTA,
+            color=Colors.CYAN,
         )
