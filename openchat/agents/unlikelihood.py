@@ -97,7 +97,7 @@ class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
             "n_image_tokens": 1,
             "n_image_channels": 1,
             "image_fusion_type": "late",
-            "no_cuda": True if "cuda" in device else False,
+            "no_cuda": False if "cuda" in device else True,
         }
         add_datapath_and_model_args(option)
         datapath = option.get('datapath')
