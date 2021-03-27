@@ -21,6 +21,7 @@ class LightningBase(pl.LightningModule):
         batch_size: int,
         lr: float,
         num_gpus: int,
+        num_tpus: int,
         weight_decay: float,
         training_step: int,
         warmup_step: int,
@@ -60,6 +61,7 @@ class LightningBase(pl.LightningModule):
         self.batch_size = batch_size
         self.lr = lr
         self.num_gpus = num_gpus
+        self.num_tpus = num_tpus
         self.weight_decay = weight_decay
         self.training_step = training_step
         self.warmup_step = warmup_step

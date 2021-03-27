@@ -1,7 +1,7 @@
 import torch
 
 from typing import Dict
-from openchat.agents import BaseAgent
+from openchat.base import BaseAgent, DecoderLM
 
 
 class HuggingfaceAgent(BaseAgent):
@@ -9,7 +9,6 @@ class HuggingfaceAgent(BaseAgent):
     def __init__(
         self,
         name,
-        prefix,
         suffix,
         device,
         maxlen,
@@ -18,11 +17,10 @@ class HuggingfaceAgent(BaseAgent):
     ):
         super().__init__(
             name=name,
-            prefix=prefix,
             suffix=suffix,
             device=device,
             maxlen=maxlen,
-            model=model,
+            model=model.eval().to(device),
             tokenizer=tokenizer,
         )
 
@@ -30,11 +28,12 @@ class HuggingfaceAgent(BaseAgent):
     def predict(
         self,
         text: str,
-        method="beam",
+        method: str = "top_k",
         num_beams: int = 5,
-        top_k: int = None,
+        top_k: int = 20,
         top_p: float = None,
         no_repeat_ngram_size: int = 4,
+        length_penalty: int = 0.65,
     ) -> Dict[str, str]:
         """
         Generate utterance.
@@ -51,33 +50,30 @@ class HuggingfaceAgent(BaseAgent):
         """
 
         method = method.lower()
-        assert method in ["greedy", "beam", "topk", "nucleus"], \
-            "param `method` must be one of ['greedy', 'beam', 'topk', 'nucleus']"
+        assert method in ["greedy", "beam", "top_k", "nucleus"], \
+            "param `method` must be one of ['greedy', 'beam', 'top_k', 'nucleus']"
 
         if method == "greedy":
             num_beams = 1
-
-        if self.use_prefix:
-            text = self.prefix + text
-
-        if self.use_suffix:
-            text = text + self.suffix
 
         input_ids = self.tokenizer(
             text=text,
             return_tensors="pt",
         )["input_ids"].to(self.device)
 
-        output_ids = self.model.predict(
+        output_ids = self.model.generate(
             input_ids=input_ids,
             num_beams=num_beams,
             top_k=top_k if method == "top_k" else None,
             top_p=top_p if method == "nucleus" else None,
             no_repeat_ngram_size=no_repeat_ngram_size,
             pad_token_id=self.tokenizer.eos_token_id,
+            max_length=self.maxlen * 2,
+            length_penalty=length_penalty,
+            repetition_penalty=2.0,
         )
 
-        if self.use_suffix:
+        if isinstance(self, DecoderLM):
             # decoder only model
             output_string = self.tokenizer.decode(
                 output_ids[:, input_ids.shape[-1]:][0],

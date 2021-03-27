@@ -4,7 +4,7 @@ from parlai.core.agents import (
     create_agent_from_opt_file,
 )
 from openchat.utils import inherit
-from openchat.agents import (
+from openchat.base import (
     ParlaiGenerationAgent,
     ConvAI2Agent,
     WizardOfWikipediaAgent,
@@ -12,27 +12,22 @@ from openchat.agents import (
 )
 
 
-class Dodecathlon(ParlaiGenerationAgent, Seq2SeqLM):
+class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
 
-    def __init__(self, model, device, maxlen=256):
-        model = self.check_model(model)
-        model = model + "_ft" if model != "all_task_mt" else model
+    def __init__(self, model, device, maxlen):
+        model = self.check_agent(model)
+        maxlen = maxlen if maxlen > 0 else self.default_maxlen()
+
+        model = model + "_ft" if model != "all_tasks_mt" else model
         name = f"zoo:dodecadialogue/{model.split('.')[-1]}/model"
-
-        opt = {}
-        add_datapath_and_model_args(opt)
-        opt["n_image_tokens"] = 1
-        opt["n_image_channels"] = 1
-        opt["image_fusion_type"] = "late"
-        opt['model_file'] = modelzoo_path(opt.get('datapath'), name)
+        option = self.set_options(name)
 
         super().__init__(
             name=model,
-            prefix="",
             suffix="\n",
             device=device,
             maxlen=maxlen,
-            model=create_agent_from_opt_file(opt),
+            model=create_agent_from_opt_file(option),
         )
 
         if "wizard_of_wikipedia" in name:
@@ -41,9 +36,10 @@ class Dodecathlon(ParlaiGenerationAgent, Seq2SeqLM):
         elif "convai2" in name:
             inherit(self, (ConvAI2Agent, Seq2SeqLM))
 
-    def available_models(self):
+    @staticmethod
+    def available_models():
         return [
-            "dodecathlon.all_task_mt",
+            "dodecathlon.all_tasks_mt",
             "dodecathlon.convai2",
             "dodecathlon.wizard_of_wikipedia",
             "dodecathlon.empathetic_dialogues"
@@ -56,3 +52,19 @@ class Dodecathlon(ParlaiGenerationAgent, Seq2SeqLM):
             "dodecathlon.light_dialog",
             "dodecathlon.daily_dialog",
         ]
+
+    def set_options(self, name):
+        option = {
+            "n_image_tokns": 1,
+            "n_image_channels": 1,
+            "image_fusion_typr": "late",
+        }
+
+        add_datapath_and_model_args(option)
+        datapath = option.get("datapath")
+        option['model_file'] = modelzoo_path(datapath, name)
+        return option
+
+    @staticmethod
+    def default_maxlen():
+        return 256

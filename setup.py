@@ -14,7 +14,6 @@ setup(
     url='https://github.com/hyunwoongko/dialogpt-chat',
     install_requires=[
         'transformers>=4<4.3.0',
-        'flask',
         'torch',
         "parlai",
     ],

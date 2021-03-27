@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import Union, Dict
 from parlai.core.message import Message
-from openchat.agents import BaseAgent
+from openchat.base import BaseAgent
 import torch
 
 
@@ -10,15 +10,14 @@ class ParlaiAgent(BaseAgent):
     def __init__(
         self,
         name,
-        prefix,
         suffix,
         device,
         maxlen,
         model,
     ):
+        model.model = model.model.eval().to(device)
         super(ParlaiAgent, self).__init__(
             name=name,
-            prefix=prefix,
             suffix=suffix,
             device=device,
             maxlen=maxlen,
@@ -35,7 +34,7 @@ class ParlaiAgent(BaseAgent):
 
         history = self.model.build_history()
         history.update_history(message)
-        return history.get_history_vec()
+        return {"input_ids": history.get_history_vec()}
 
 
 class ParlaiClassificationAgent(ParlaiAgent):
@@ -50,7 +49,7 @@ class ParlaiClassificationAgent(ParlaiAgent):
             "full_text": text,
         })
 
-        message["text_vec"] = self.tokenizer(message)
+        message["text_vec"] = self.tokenizer(message)['input_ids']
         message["full_text_vec"] = message["text_vec"]
         batch = self.model.batchify([message])
 
@@ -68,34 +67,30 @@ class ParlaiGenerationAgent(ParlaiAgent):
     def predict(
         self,
         text,
-        method="beam",
+        method="top_k",
         num_beams=5,
-        top_k=None,
+        top_k=20,
         top_p=None,
         no_repeat_ngram_size=4,
+        length_penalty: int = 0.65,
     ) -> Dict[str, str]:
-        assert method in ["greedy", "beam", "delayedbeam", "topk", "nucleus"], \
-            "param `method` must be one of ['greedy', 'beam', 'delayedbeam', 'topk', 'nucleus']"
+        assert method in ["greedy", "beam", "top_k", "nucleus"], \
+            "param `method` must be one of ['greedy', 'beam'', 'top_k', 'nucleus']"
 
-        self.model.opt["inference"] = method
+        self.model.opt["inference"] = method.replace("_", "")
         self.model.opt["beam_size"] = num_beams
         self.model.opt["topk"] = top_k
         self.model.opt["topp"] = top_p
         self.model.opt["beam-block.ngram"] = no_repeat_ngram_size
         self.model.opt["beam-context-block-ngram"] = no_repeat_ngram_size
-
-        if self.use_prefix:
-            text = self.prefix + text
-
-        if self.use_suffix:
-            text = text + self.suffix
+        self.model.opt["beam_length_penalty"] = length_penalty
 
         message = Message({
             "text": text,
             "full_text": text,
         })
 
-        message["text_vec"] = self.tokenizer(message)
+        message["text_vec"] = self.tokenizer(message)["input_ids"]
         message["full_text_vec"] = message["text_vec"]
         batch = self.model.batchify([message])
 
