@@ -70,7 +70,7 @@ pip install openchat
     <li>unlikelihood.wizard_of_wikipedia.context</li>
     <li>unlikelihood.wizard_of_wikipedia.label</li>
     <li>unlikelihood.convai2.context_and_label</li>
-    <li>unlikelihood.convai2.contex</li>
+    <li>unlikelihood.convai2.context</li>
     <li>unlikelihood.convai2.label</li>
     <li>unlikelihood.convai2.vocab.alpha.1e-0</li>
     <li>unlikelihood.convai2.vocab.alpha.1e-1</li>
