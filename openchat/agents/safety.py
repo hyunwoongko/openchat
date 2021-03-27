@@ -1,6 +1,7 @@
+from parlai.agents.transformer.transformer import TransformerClassifierAgent
 from parlai.core.build_data import modelzoo_path
 from parlai.utils.safety import OffensiveStringMatcher, OffensiveLanguageClassifier
-from parlai.core.agents import add_datapath_and_model_args, create_agent_from_opt_file
+from parlai.core.agents import add_datapath_and_model_args, create_agent_from_opt_file, create_agent
 from openchat.base import ParlaiClassificationAgent, EncoderLM, SingleTurn
 
 
@@ -15,10 +16,37 @@ class OffensiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
             name=model,
         )
         self.string_matcher = OffensiveStringMatcher()
-        self.agent = OffensiveLanguageClassifier()
-        self.agent.model.opt["no_cuda"] = \
-            True if "cuda" in device else False
+        self.agent = self._create_safety_model(
+            "zoo:dialogue_safety/single_turn/model",
+            device=device,
+        )
         self.model = self.agent.model
+
+    def _create_safety_model(self, custom_model_file, device):
+        from parlai.core.params import ParlaiParser
+
+        parser = ParlaiParser(False, False)
+        TransformerClassifierAgent.add_cmdline_args(parser, partial_opt=None)
+        parser.set_params(
+            model='transformer/classifier',
+            model_file=custom_model_file,
+            print_scores=True,
+            data_parallel=False,
+        )
+        safety_opt = parser.parse_args([])
+        safety_opt["no_cuda"] = False if "cuda" in device else True
+        return create_agent(safety_opt, requireModelExists=True)
+
+    def contains_offensive_language(self, text):
+        """
+        Returns the probability that a message is safe according to the classifier.
+        """
+        act = {'text': text, 'episode_done': True}
+        self.agent.observe(act)
+        response = self.agent.act()['text']
+        pred_class, prob = [x.split(': ')[-1] for x in response.split('\n')]
+        pred_not_ok = self.labels()[0 if pred_class == "__ok__" else 1]
+        return pred_not_ok
 
     def labels(self):
         return ["non-offensive", "offensive"]
@@ -32,7 +60,7 @@ class OffensiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
 
         return {
             "input": text,
-            "output": self.labels()[int(text in self.agent)],
+            "output": self.contains_offensive_language(text),
         }
 
     @staticmethod
@@ -80,7 +108,7 @@ class SensitiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
 
     def set_options(self, name, device):
         option = {
-            "no_cuda": True if "cuda" in device else False,
+            "no_cuda": False if "cuda" in device else True,
         }
 
         add_datapath_and_model_args(option)

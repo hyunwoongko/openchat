@@ -38,7 +38,7 @@ class WizardOfWikipediaGenerationAgent(WizardOfWikipediaAgent, Seq2SeqLM):
 
     def set_options(self, name, device):
         option = {
-            "no_cuda": True if "cuda" in device else False,
+            "no_cuda": False if "cuda" in device else True,
         }
 
         add_datapath_and_model_args(option)
