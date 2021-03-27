@@ -59,7 +59,7 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
             "n_image_tokens": 1,
             "n_image_channels": 1,
             "image_fusion_type": "late",
-            "no_cuda": True if "cude" in device else False,
+            "no_cuda": True if "cuda" in device else False,
         }
 
         add_datapath_and_model_args(option)

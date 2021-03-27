@@ -1,5 +1,6 @@
+from parlai.core.build_data import modelzoo_path
 from parlai.utils.safety import OffensiveStringMatcher, OffensiveLanguageClassifier
-from parlai.core.agents import create_agent_from_model_file
+from parlai.core.agents import add_datapath_and_model_args, create_agent_from_opt_file
 from openchat.base import ParlaiClassificationAgent, EncoderLM, SingleTurn
 
 
@@ -15,6 +16,8 @@ class OffensiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
         )
         self.string_matcher = OffensiveStringMatcher()
         self.agent = OffensiveLanguageClassifier()
+        self.agent.model.opt["no_cuda"] = \
+            True if "cuda" in device else False
         self.model = self.agent.model
 
     def labels(self):
@@ -44,11 +47,15 @@ class OffensiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
 class SensitiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
 
     def __init__(self, model, device, maxlen):
+        option = self.set_options(
+            name="zoo:sensitive_topics_classifier/model",
+            device=device,
+        )
+
         super(SensitiveAgent, self).__init__(
             device=device,
             maxlen=maxlen,
-            model=create_agent_from_model_file(
-                "zoo:sensitive_topics_classifier/model"),
+            model=create_agent_from_opt_file(option),
             suffix="",
             name=model,
         )
@@ -70,3 +77,13 @@ class SensitiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
     @staticmethod
     def default_maxlen():
         return 512
+
+    def set_options(self, name, device):
+        option = {
+            "no_cuda": True if "cuda" in device else False,
+        }
+
+        add_datapath_and_model_args(option)
+        datapath = option.get("datapath")
+        option['model_file'] = modelzoo_path(datapath, name)
+        return option
