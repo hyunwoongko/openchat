@@ -67,7 +67,7 @@ pip install openchat
   <h4><a href="https://arxiv.org/abs/1911.03860">Unlikelihood</a></h4>
   <ul>
     <li>unlikelihood.wizard_of_wikipedia.context_and_label</li>
-    <li>unlikelihood.wizard_of_wikipedia.contex</li>
+    <li>unlikelihood.wizard_of_wikipedia.context</li>
     <li>unlikelihood.wizard_of_wikipedia.label</li>
     <li>unlikelihood.convai2.context_and_label</li>
     <li>unlikelihood.convai2.contex</li>
