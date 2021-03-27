@@ -1,4 +1,4 @@
-from parlai.core.agents import create_agent_from_model_file, add_datapath_and_model_args, create_agent_from_opt_file
+from parlai.core.agents import add_datapath_and_model_args, create_agent_from_opt_file
 from parlai.core.build_data import modelzoo_path
 
 from openchat.base import ParlaiGenerationAgent, Seq2SeqLM

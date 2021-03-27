@@ -95,7 +95,7 @@ class TerminalEnvironment(BaseEnvironment):
         cprint(
             f"[SYSTEM]: Please input [{agent.name.upper()}]'s perosna.\n"
             f"[SYSTEM]: Enter '.done' if you want to end input persona.\n",
-            color=Colors.MAGENTA)
+            color=self.system_color)
 
         while True:
             _persona = cinput(
@@ -120,7 +120,7 @@ class TerminalEnvironment(BaseEnvironment):
         cprint(
             f"[SYSTEM]: Please input topic for Wizard of wikipedia.\n"
             f"[SYSTEM]: Enter '.topic' if you want to check random topic examples.\n",
-            color=Colors.MAGENTA)
+            color=self.system_color)
 
         while True:
             _topic = cinput(
