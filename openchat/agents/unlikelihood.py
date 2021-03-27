@@ -92,11 +92,12 @@ class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
             "unlikelihood.eli5.label",
         ]
 
-    def set_options(self, name, path, class_name):
+    def set_options(self, name, path, class_name, device):
         option = {
             "n_image_tokens": 1,
             "n_image_channels": 1,
             "image_fusion_type": "late",
+            "no_cuda": True if "cuda" in device else False,
         }
         add_datapath_and_model_args(option)
         datapath = option.get('datapath')

@@ -20,7 +20,7 @@ class HuggingfaceAgent(BaseAgent):
             suffix=suffix,
             device=device,
             maxlen=maxlen,
-            model=model.eval().to(device),
+            model=model,
             tokenizer=tokenizer,
         )
 
