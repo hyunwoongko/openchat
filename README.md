@@ -1,12 +1,13 @@
-# OpenChat: Opensource chatting framework for generative models
+# OpenChat: Easy to use opensource chatting framework via neural networks
 ```
-    ____   ____   ______ _   __   ______ __  __ ___   ______
-   / __ \ / __ \ / ____// | / /  / ____// / / //   | /_  __/
-  / / / // /_/ // __/  /  |/ /  / /    / /_/ // /| |  / /   
- / /_/ // ____// /___ / /|  /  / /___ / __  // ___ | / /    
- \____//_/    /_____//_/ |_/   \____//_/ /_//_/  |_|/_/     
+   ____   ____   ______ _   __   ______ __  __ ___   ______
+  / __ \ / __ \ / ____// | / /  / ____// / / //   | /_  __/
+ / / / // /_/ // __/  /  |/ /  / /    / /_/ // /| |  / /   
+/ /_/ // ____// /___ / /|  /  / /___ / __  // ___ | / /    
+\____//_/    /_____//_/ |_/   \____//_/ /_//_/  |_|/_/     
 ```
-- OpenChat is opensource chatting framework for generative models.
+- OpenChat is easy to use opensource chatting framework.
+- OpenChat supports 30+ dialogue model based on neural networks.
 - You can talk with AI with **only one line of code.**
 
 <br><br>
@@ -18,203 +19,155 @@ pip install openchat
 
 <br><br>
 
-## Model Supports
-- [DialoGPT](https://arxiv.org/abs/1911.00536) : [small, medium, large]
-- [BlenderBot](https://arxiv.org/abs/2004.13637) : [small, medium, large, xlarge]
-- Coming Soon...
-
+## Supported Models
+<ul>
+<li>OpenChat supports 30+ dialogue models based on neural networks.</li>
+<li>Use these names as parameter <code>model='name'</code> when you create <code>OpenChat</code>.</li>
+<li><details>
+  <summary>Click here if you want to check supported models.</summary>
+  <h4><a href="https://arxiv.org/abs/2004.13637">Blender</a></h4>
+  <ul>
+    <li>blender.small</li>
+    <li>blender.medium</li>
+    <li>blender.large</li>
+    <li>blender.xlarge</li>
+    <li>blender.xxlarge</li>
+  </ul>
+  <h4><a href="https://arxiv.org/abs/1911.00536">DialoGPT</a></h4>
+  <ul>
+    <li>dialogpt.small</li>
+    <li>dialogpt.medium</li>
+    <li>dialogpt.large</li>
+  </ul>
+  <h4><a href="https://arxiv.org/abs/1911.03768">Dodecathlon</a></h4>
+  <ul>
+    <li>dodecathlon.all_tasks_mt</li>
+    <li>dodecathlon.convai2</li>
+    <li>dodecathlon.wizard_of_wikipedia</li>
+    <li>dodecathlon.empathetic_dialogues</li>
+    <li>dodecathlon.eli5</li>
+    <li>dodecathlon.reddit</li>
+    <li>dodecathlon.twitter</li>
+    <li>dodecathlon.ubuntu</li>
+    <li>dodecathlon.image_chat</li>
+    <li>dodecathlon.cornell_movie</li>
+    <li>dodecathlon.light_dialog</li>
+    <li>dodecathlon.daily_dialog</li>
+  </ul>
+  <h4><a href="https://arxiv.org/abs/2004.13637">Reddit</a></h4>
+  <ul>
+    <li>reddit.xlarge</li>
+    <li>reddit.xxlarge</li>
+  </ul>
+  <h4><a href="https://arxiv.org/abs/2010.07079">Safety</a></h4>
+  <ul>
+    <li>safety.offensive</li>
+    <li>safety.sensitive</li>
+  </ul>
+  <h4><a href="https://arxiv.org/abs/1911.03860">Unlikelihood</a></h4>
+  <ul>
+    <li>unlikelihood.wizard_of_wikipedia.context_and_label</li>
+    <li>unlikelihood.wizard_of_wikipedia.contex</li>
+    <li>unlikelihood.wizard_of_wikipedia.label</li>
+    <li>unlikelihood.convai2.context_and_label</li>
+    <li>unlikelihood.convai2.contex</li>
+    <li>unlikelihood.convai2.label</li>
+    <li>unlikelihood.convai2.vocab.alpha.1e-0</li>
+    <li>unlikelihood.convai2.vocab.alpha.1e-1</li>
+    <li>unlikelihood.convai2.vocab.alpha.1e-2</li>
+    <li>unlikelihood.convai2.vocab.alpha.1e-3</li>
+    <li>unlikelihood.eli5.context_and_label</li>
+    <li>unlikelihood.eli5.context</li>
+    <li>unlikelihood.eli5.label</li>
+  </ul>
+  <h4><a href="https://arxiv.org/abs/1811.01241">Wizard of Wikipedia</a></h4>
+  <ul>
+    <li>wizard_of_wikipedia.end2end_generator</li>
+  </ul>
+</details>
+</li>
+</ul>
 <br><br>
 
 ## Usage
-### 1. Terminal environment
-- Chatting on terminal.
-- Type `.exit` if you want to exit dialogue.
-- Type `.clear` if you want to clear all histories.
-- You can add additional user keywords. (Details are described below.)
-
+- Just import and create a object. That's all.
 ```python
 >>> from openchat import OpenChat
->>> OpenChat(model="blenderbot", size="large")
+>>> OpenChat(model="blender.medium", device="cpu")
 ```
-```
-Chat with facebook/blenderbot-1B-distill !
-user : Hi. It is nice day.
-bot : It is a nice day out. I am going to go for a walk. What are you up to?
-user : I'll play computer game. Do you like playing game?
-bot : I love playing video games. What kind of games do you like to play on your computer?
-user : I love racing game. It is so exited. How about you?
-bot : I love racing games as well. I like to play on the Playstation 4. What about you?
-user : Usually I like to play on PC. I have a question. Who is CEO of Apple?
-bot : The CEO of Apple is Steve Jobs. He founded the company in 1976.
-user : That's right. I have an IPhone. It is my favorite phone. What is your phone?
-bot : I have a Samsung Galaxy S8. I love it. It's the best phone I've ever had.
-user : .exit
-bot : good bye.
-```
-<br>
 
-- If you want to use GPU, use argument `device="cuda"`
+- Set param `device='cuda'` If you want to use GPU acceleration.
 ```python
 >>> from openchat import OpenChat
->>> OpenChat(model="blenderbot", size="large", device="cuda")
+>>> OpenChat(model="blender.medium", device="cuda")
 ```
 
-<br>
-
-### 2. Your own environment (not terminal)
-- You can use user id to manage user-specific history.
-- This can be useful when deployed on Facebook messenger or WhatsApp.
-- There is a web demo implementation in the `/demo` folder.
-
-![](https://user-images.githubusercontent.com/38183241/109745263-f1a24380-7c16-11eb-8ea2-915b2ed281ab.png)
-
-<br>
-    
-#### 2.1. Write your own environment class
-- Make your own environment class inherited from `BaseEnv`
-- And implement your own `run(model: BaseModel)` method like below.
-
+- Set `**kwargs` if you want to change decoding options.
+  - method (str): one of `["greedy", "beam", "top_k", "nucleus"]`,
+  - num_beams (int): size of beam search 
+  - top_k (int): K value for top-k sampling
+  - top_p: (float): P value for nucleus sampling
+  - no_repeat_ngram_size (int): beam search n-gram blocking size for removing repetition,
+  - length_penalty (float): length penalty (1.0=None, UP=Longer, DOWN=Shorter)
+- Decoding options must be `keyword argument` not `positional argument`.    
 ```python
-from typing import Dict
-from flask import Flask, render_template
-from flask_cors import CORS
-from openchat.envs import BaseEnv
-from openchat.models import BaseModel
-
-
-class WebDemoEnv(BaseEnv):
-
-    def __init__(self):
-        super().__init__()
-        self.app = Flask(__name__)
-        CORS(self.app)
-
-    def run(self, model: BaseModel):
-
-        @self.app.route("/")
-        def index():
-            return render_template("index.html", title=model.name)
-
-        @self.app.route('/send/<user_id>/<text>', methods=['GET'])
-        def send(user_id, text: str) -> Dict[str, str]:
-
-            if text in self.keywords:
-                # Format of self.keywords dictionary
-                # self.keywords['/exit'] = (exit_function, 'good bye.')
-
-                _out = self.keywords[text][1]
-                # text to print when keyword triggered
-
-                self.keywords[text][0](user_id, text)
-                # function to operate when keyword triggered
-
-            else:
-                _out = model.predict(user_id, text)
-
-            return {"output": _out}
-
-        self.app.run(host="0.0.0.0", port=8080)
-```
-<br>
-
-#### 2.2. Start to run application.
-```python
-from openchat import OpenChat
-from demo.web_demo_env import WebDemoEnv
-
-OpenChat(model="blenderbot", size="large", env=WebDemoEnv())
-```
-<br><br>
-
-### 3. Additional Options
-#### 3.1. Add custom Keywords
-
-- You can add new manual keyword such as `.exit`, `.clear`, 
-- call the `self.add_keyword('.new_keyword', 'message to print', triggered_function)'` method.
-- `triggered_function` should be form of `function(user_id:str, text:str)`
-
-```python
-from openchat.envs import BaseEnv
-
-
-class YourOwnEnv(BaseEnv):
-    
-    def __init__(self):
-        super().__init__()
-        self.add_keyword(".new_keyword", "message to print", self.function)
-
-    def function(self, user_id: str, text: str):
-        """do something !"""
-        
-```
-<br><br>
-
-#### 3.2. Modify generation options
-- You can modify max_context_length (number of input history tokens, default is 128).
-```python
->>> OpenChat(size="large", device="cuda", max_context_length=256)
-```
-<br>
-
-- You can modify generation options `['num_beams', 'top_k', 'top_p']`.
-```python
->>> model.predict(
-...     user_id="USER_ID",
-...     text="Hello.",
-...     num_beams=5,
-...     top_k=20,
-...     top_p=0.8,
+>>> from openchat import OpenChat
+>>> OpenChat(
+...    model="blender.medium", 
+...    device="cpu", 
+...    method="top_k",
+...    top_k=20,
+...    no_repeat_ngram_size=3,
+...    length_penalty=0.6,                            
 ... )
-```
+```  
 <br><br>
 
-#### 3.3. Check histories
-- You can check all dialogue history using `self.histories`
-```python
-from openchat.envs import BaseEnv
-
-
-class YourOwnEnv(BaseEnv):
+## Special Tasks
+### 1. ConvAI2
+![](https://user-images.githubusercontent.com/38183241/112734380-bdf1d980-8f88-11eb-8ad7-18cf4d8d9ac6.png)
+- ConvAI2 is one of the most famous conversational AI challenges about a persona. 
+- Openchat provides custom persona setting wlike above image.
+- Below models provides custom perona setting. (`*` means all models)
+  - `blender.*`
+  - `dodecathlon.convai2`
+  - `unlikelihood.convai2.*`  
+<br><br> 
     
-    def __init__(self):
-        super().__init__()
-        print(self.histories)
-```
-```
-{
-    user_1 : {'user': [] , 'bot': []},
-    user_2 : {'user': [] , 'bot': []},
-    ...more...
-    user_n : {'user': [] , 'bot': []},
-}
-```
-<br>
-
-#### 3.4. Clear histories
-- You can clear all dialogue histories
-```python
-from flask import Flask
-from openchat.envs import BaseEnv
-from openchat.models import BaseModel
-
-class YourOwnEnv(BaseEnv):
-    
-    def __init__(self):
-        super().__init__()
-        self.app = Flask(__name__)
-
-    def run(self, model: BaseModel):
-        
-        @self.app.route('/send/<user_id>/<text>', methods=['GET'])
-        def send(user_id, text: str) -> Dict[str, str]:
-            
-            self.clear(user_id, text)
-            # clear all histories ! 
-
-```
-
+### 2. Wizard of Wikipedia
+![](https://user-images.githubusercontent.com/38183241/112734377-bb8f7f80-8f88-11eb-8c25-8c30691e29b8.png)
+- Wizard of wikipedia is one of most famous knowledge grounded dialogue dataset.
+- Openchat provides custom topic setting like above image.
+- Below models provides custom topic setting. (`*` means all models)
+    - `wizard_of_wikipedia.end2end_generator`
+    - `dodecathlon.wizard_of_wikipedia`
+    - `unlikelihood.wizard_of_wikipedia.*`
 <br><br>
 
+### 3. Safety Agents
+![](https://user-images.githubusercontent.com/38183241/112735485-b41fa480-8f8f-11eb-9ac2-2c51a5294551.png)
+![](https://user-images.githubusercontent.com/38183241/112735488-b71a9500-8f8f-11eb-94ce-55461c02966e.png)
+- Openchat provides a dialog safety model to help you design conversation model.
+- Below models provides dialog safety features.
+  - `safety.offensive`: offensive words classification
+  - `safety.sensitive`: sensitive topic classification
+<br><br>
+
+## Update plan
+- Openchat is not a finished, but a growing library.
+- I plan to add the following features in the near future.
+
+### Plan by versions.
+- [X] v1.0: Support `huggingface transformers` for DialoGPT and Blender.
+- [X] v1.1: Support `parlai` for various dialogue generation tasks.
+- [ ] v1.2: Support `pytorch-lightning` for fine-tuning using GPU & TPU.
+- [ ] v1.3: Support `deepspeed` for huge model inference like Reddit 9.4B.
+- [ ] v1.4: Add Retrieval-based dialogue models.
+- [ ] v1.5: Add `non-parlai` models (e.g. Baidu PLATO-2, ...)
+- [ ] v1.6: Easy deployment to messengers (e.g. Facebook, Whatsapp, ...)
+- [ ] v1.7: Support database (e.g. PostgreSQL, MySQL, ...)
+<br><br>
+      
 ## License
 ```
 Copyright 2021 Hyunwoong Ko.
