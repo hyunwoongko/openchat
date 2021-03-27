@@ -20,30 +20,16 @@ class Command:
 class BaseEnvironment(ABC):
 
     def __init__(self):
-        clear_command = Command(
-            command=".reset",
-            description="reset all histories.",
-            function=self.clear_histories,
-            message="all histories are moved.",
-        )
-
-        self.commands = {".clear": clear_command}
         self.histories = {}
 
-    def clear_histories(self, user_id, text=None):
+    def clear_histories(self, user_id):
         self.histories[user_id] = {
             "user_message": [],
             "bot_message": [],
             "model_input": "",
             "prefix": [],
-            "chosen_topic": ","
+            "chosen_topic": ""
         }
-
-    def help_message(self):
-        return "\n".join([str(_) for _ in self.commands])
-
-    def add_command(self, command: Command):
-        self.commands[command.command] = command
 
     def add_user_message(self, user_id, text):
         self.histories[user_id]["user_message"].append(text)
@@ -82,6 +68,13 @@ class BaseEnvironment(ABC):
 
         histories_for_current_turn = list(reversed(histories_for_current_turn))
         return prefix + "".join(histories_for_current_turn) + user_input
+
+    def is_empty(self, user_id):
+        return len(self.histories[user_id]["user_message"]) == 0 and \
+               len(self.histories[user_id]["bot_message"]) == 0 and \
+               len(self.histories[user_id]["model_input"]) == 0 and \
+               len(self.histories[user_id]["prefix"]) == 0 and \
+               len(self.histories[user_id]["chosen_topic"]) == 0
 
     @abstractmethod
     def start(self, agent: BaseAgent):

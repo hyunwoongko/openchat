@@ -21,6 +21,11 @@ class Seq2SeqLM:
     pass
 
 
+# marker interface
+class SingleTurn:
+    pass
+
+
 class BaseAgent(ABC):
 
     def __init__(self, name, suffix, device, maxlen, model, tokenizer):

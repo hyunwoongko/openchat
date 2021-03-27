@@ -1,2 +1,2 @@
 from openchat import OpenChat
-OpenChat(model="blender.small", device="cpu")
+OpenChat(model="blender.medium", device="cpu")

@@ -1,4 +1,7 @@
 import random
+import sys
+
+from openchat.base.agents.base import SingleTurn
 from openchat.base.envs.base import BaseEnvironment
 from openchat.base import (
     BaseAgent,
@@ -20,35 +23,60 @@ class TerminalEnvironment(BaseEnvironment):
         user_color=Colors.GREEN,
         bot_color=Colors.YELLOW,
         special_color=Colors.BLUE,
+        system_color=Colors.MAGENTA,
     ):
         super().__init__()
         self.user_id = "dummy_value"
         self.user_color = user_color
         self.bot_color = bot_color
         self.special_color = special_color
+        self.system_color = system_color
 
     def start(self, agent: BaseAgent, **kwargs):
         cprint(
             f"\n[SYSTEM]: Let's talk with [{agent.name.upper()}].\n"
-            f"[SYSTEM]: Enter '.help', if you want to see chatting commands.\n",
-            color=Colors.MAGENTA)
+            f"[SYSTEM]: Enter '.exit', if you want to exit chatting.\n"
+            f"[SYSTEM]: Enter '.reset', if you want reset all histories.\n",
+            color=self.system_color)
 
-        self.clear_histories(self.user_id, text=None)
-        self.pre_dialog_for_special_tasks(agent)
+        self.clear_histories(self.user_id)
 
         while True:
+            if self.is_empty(self.user_id):
+                self.pre_dialog_for_special_tasks(agent)
+
             user_message = cinput("[USER]: ", color=self.user_color)
+
+            if user_message == ".exit":
+                cprint(
+                    f"[SYSTEM]: good bye.\n",
+                    color=self.system_color,
+                )
+                exit(0)
+                sys.exit(0)
+
+            if user_message == ".reset":
+                cprint(
+                    f"[SYSTEM]: reset all histories.\n",
+                    color=self.system_color,
+                )
+                self.clear_histories(self.user_id)
+                continue
+
             if isinstance(agent, WizardOfWikipediaAgent):
                 user_message = agent.retrieve_knowledge(user_message)
 
-            model_input = self.make_model_input(
-                self.user_id,
-                user_message,
-                agent,
-            )
+            if isinstance(agent, SingleTurn):
+                model_input = user_message
+            else:
+                model_input = self.make_model_input(
+                    self.user_id,
+                    user_message,
+                    agent,
+                )
 
             self.add_user_message(self.user_id, user_message)
-            bot_message = agent.predict(model_input)["output"]
+            bot_message = agent.predict(model_input, **kwargs)["output"]
 
             self.add_bot_message(self.user_id, bot_message)
             cprint(
@@ -106,7 +134,7 @@ class TerminalEnvironment(BaseEnvironment):
                 random_list = random_list[:4]
 
                 _topic = cprint(
-                    f"[TOPIC]: Random examples = {random_list}\n",
+                    f"[TOPIC]: {random_list}\n",
                     color=self.special_color,
                 )
 

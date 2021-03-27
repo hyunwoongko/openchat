@@ -15,7 +15,9 @@ class ParlaiAgent(BaseAgent):
         maxlen,
         model,
     ):
-        model.model = model.model.eval().to(device)
+        if model:
+            model.model = model.model.eval().to(device)
+
         super(ParlaiAgent, self).__init__(
             name=name,
             suffix=suffix,

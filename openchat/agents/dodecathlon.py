@@ -32,6 +32,7 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
 
         if "wizard_of_wikipedia" in name:
             inherit(self, (WizardOfWikipediaAgent, Seq2SeqLM))
+            self.build_wizard_of_wikipedia()
 
         elif "convai2" in name:
             inherit(self, (ConvAI2Agent, Seq2SeqLM))
@@ -55,9 +56,9 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
 
     def set_options(self, name):
         option = {
-            "n_image_tokns": 1,
+            "n_image_tokens": 1,
             "n_image_channels": 1,
-            "image_fusion_typr": "late",
+            "image_fusion_type": "late",
         }
 
         add_datapath_and_model_args(option)

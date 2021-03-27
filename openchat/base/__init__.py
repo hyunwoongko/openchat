@@ -1,4 +1,4 @@
-from openchat.base.agents.base import BaseAgent, EncoderLM, DecoderLM, Seq2SeqLM
+from openchat.base.agents.base import BaseAgent, EncoderLM, DecoderLM, Seq2SeqLM, SingleTurn
 from openchat.base.agents.huggingface import HuggingfaceAgent
 from openchat.base.agents.parlai import ParlaiAgent, ParlaiGenerationAgent, ParlaiClassificationAgent
 from openchat.base.agents.convai2 import ConvAI2Agent
@@ -15,4 +15,6 @@ __all__ = [
     EncoderLM,
     DecoderLM,
     Seq2SeqLM,
+    SingleTurn,
+
 ]

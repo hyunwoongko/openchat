@@ -1,8 +1,8 @@
 from openchat.agents.blender import BlenderGenerationAgent
 from openchat.agents.dialogpt import DialoGPTAgent
 from openchat.agents.dodecathlon import DodecathlonAgent
+from openchat.agents.safety import OffensiveAgent, SensitiveAgent
 from openchat.agents.reddit import RedditAgent
-from openchat.agents.safety import SafetyAgent
 from openchat.agents.unlikelihood import UnlikelihoodAgent
 from openchat.agents.wow import WizardOfWikipediaGenerationAgent
 from openchat.envs.terminal import TerminalEnvironment
@@ -17,6 +17,7 @@ class OpenChat(object):
         device,
         maxlen=-1,
         environment="terminal",
+        **kwargs,
     ):
         draw_openchat()
         self.agent = self.check_agent(model)
@@ -28,7 +29,7 @@ class OpenChat(object):
 
         self.environment = self.check_environment(environment)
         self.environment = self.create_environment_by_name(environment)
-        self.environment.start(self.agent)
+        self.environment.start(self.agent, **kwargs)
 
     def check_agent(self, model) -> str:
         model = model.lower()
@@ -71,12 +72,17 @@ class OpenChat(object):
             return DodecathlonAgent(name, device, maxlen)
         elif agent_name == "reddit":
             return RedditAgent(name, device, maxlen)
-        elif agent_name == "safety":
-            return SafetyAgent(name, device, maxlen)
         elif agent_name == "unlikelihood":
             return UnlikelihoodAgent(name, device, maxlen)
         elif agent_name == "wizard_of_wikipedia":
             return WizardOfWikipediaGenerationAgent(name, device, maxlen)
+        elif agent_name == "safety":
+            if name.split(".")[1] == "offensive":
+                return OffensiveAgent(name, device, maxlen)
+            elif name.split(".")[1] == "sensitive":
+                return SensitiveAgent(name, device, maxlen)
+            else:
+                return Exception("wrong model")
         else:
             return Exception("wrong model")
 
@@ -87,7 +93,8 @@ class OpenChat(object):
             DialoGPTAgent,
             DodecathlonAgent,
             RedditAgent,
-            SafetyAgent,
+            SensitiveAgent,
+            OffensiveAgent,
             UnlikelihoodAgent,
             WizardOfWikipediaGenerationAgent,
         ]
@@ -103,9 +110,10 @@ class OpenChat(object):
     def available_environments():
         return [
             "terminal",
-            "webserver",
-            "facebook",
-            "kakaotalk",
-            "flask",
-            "whatsapp",
+            # "webserver",
+            # "facebook",
+            # "kakaotalk",
+            # "flask",
+            # "whatsapp",
+            # TODO: Future works
         ]

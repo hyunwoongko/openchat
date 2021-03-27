@@ -54,6 +54,9 @@ class WizardOfWikipediaAgent(ParlaiGenerationAgent):
             model=model,
         )
 
+        self.build_wizard_of_wikipedia()
+
+    def build_wizard_of_wikipedia(self):
         self.TOKEN_KNOWLEDGE = '__knowledge__'
         self.TOKEN_END_KNOWLEDGE = '__endknowledge__'
         self.topic_list = load_topics()
@@ -97,6 +100,7 @@ class WizardOfWikipediaAgent(ParlaiGenerationAgent):
         top_k=None,
         top_p=None,
         no_repeat_ngram_size=4,
+        length_penalty=0.65,
     ) -> Dict[str, str]:
         if not self.chosen_topic:
             raise Exception(
@@ -111,4 +115,5 @@ class WizardOfWikipediaAgent(ParlaiGenerationAgent):
             top_k=top_k,
             top_p=top_p,
             no_repeat_ngram_size=no_repeat_ngram_size,
+            length_penalty=length_penalty,
         )

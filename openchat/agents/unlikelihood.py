@@ -56,7 +56,7 @@ class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
             class_name="RepetitionUnlikelihoodAgent",
         )
 
-        super(UnlikelihoodAgent, self).__init__(
+        super().__init__(
             device=device,
             name=model,
             maxlen=maxlen,
@@ -69,6 +69,7 @@ class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
 
         if "wizard_of_wikipedia" in model:
             inherit(self, (WizardOfWikipediaAgent, Seq2SeqLM))
+            self.build_wizard_of_wikipedia()
 
         elif "convai2" in model:
             inherit(self, (ConvAI2Agent, Seq2SeqLM))
