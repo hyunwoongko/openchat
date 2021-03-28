@@ -127,7 +127,7 @@ pip install openchat
 ### 1. ConvAI2
 ![](https://user-images.githubusercontent.com/38183241/112734380-bdf1d980-8f88-11eb-8ad7-18cf4d8d9ac6.png)
 - ConvAI2 is one of the most famous conversational AI challenges about a persona. 
-- Openchat provides custom persona setting wlike above image.
+- Openchat provides custom persona setting like above image.
 - Below models provides custom perona setting. (`*` means all models)
   - `blender.*`
   - `dodecathlon.convai2`
