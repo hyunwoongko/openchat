@@ -59,12 +59,14 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
             "n_image_tokens": 1,
             "n_image_channels": 1,
             "image_fusion_type": "late",
-            "no_cuda": False if "cuda" in device else True,
         }
 
         add_datapath_and_model_args(option)
         datapath = option.get("datapath")
         option['model_file'] = modelzoo_path(datapath, name)
+        option["override"] = {
+            "no_cuda": False if "cuda" in device else True,
+        }
         return option
 
     @staticmethod

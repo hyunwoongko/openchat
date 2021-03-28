@@ -34,7 +34,7 @@ class OffensiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
             data_parallel=False,
         )
         safety_opt = parser.parse_args([])
-        safety_opt["no_cuda"] = False if "cuda" in device else True
+        safety_opt["override"]["no_cuda"] = False if "cuda" in device else True
         return create_agent(safety_opt, requireModelExists=True)
 
     def contains_offensive_language(self, text):
@@ -107,11 +107,12 @@ class SensitiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
         return 512
 
     def set_options(self, name, device):
-        option = {
-            "no_cuda": False if "cuda" in device else True,
-        }
+        option = {}
 
         add_datapath_and_model_args(option)
         datapath = option.get("datapath")
         option['model_file'] = modelzoo_path(datapath, name)
+        option = {
+            "no_cuda": False if "cuda" in device else True,
+        }
         return option
