@@ -51,17 +51,36 @@ class OffensiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
     def labels(self):
         return ["non-offensive", "offensive"]
 
-    def predict(self, text, **kwargs):
-        if text in self.string_matcher:
+    def predict(self, text, method="both", **kwargs):
+        assert method in ["both", "string-match", "bert"], \
+            "param method must be one of ['both', 'string-match', 'bert']"
+
+        if method == "string-match":
             return {
-                "input": text,
-                "output": "offensive",
+                "input":
+                    text,
+                "output":
+                    "offensive"
+                    if text in self.string_matcher else "non-offensive",
             }
 
-        return {
-            "input": text,
-            "output": self.contains_offensive_language(text),
-        }
+        if method == "bert":
+            return {
+                "input": text,
+                "output": self.contains_offensive_language(text),
+            }
+
+        if method == "both":
+            if text in self.string_matcher:
+                return {
+                    "input": text,
+                    "output": "offensive",
+                }
+
+            return {
+                "input": text,
+                "output": self.contains_offensive_language(text),
+            }
 
     @staticmethod
     def available_models():
