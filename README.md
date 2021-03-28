@@ -95,12 +95,14 @@ pip install openchat
 >>> from openchat import OpenChat
 >>> OpenChat(model="blender.medium", device="cpu")
 ```
-
+<br><br>
+   
 - Set param `device='cuda'` If you want to use GPU acceleration.
 ```python
 >>> from openchat import OpenChat
 >>> OpenChat(model="blender.medium", device="cuda")
 ```
+<br><br>
 
 - Set `**kwargs` if you want to change decoding options.
   - method (str): one of `["greedy", "beam", "top_k", "nucleus"]`,
@@ -120,7 +122,17 @@ pip install openchat
 ...    no_repeat_ngram_size=3,
 ...    length_penalty=0.6,                            
 ... )
-```  
+```
+- For `safety.offensive` model, parametrt `method` must be one of `["both", "string-match", "bert"]`
+```python
+>>> from openchat import OpenChat
+>>> OpenChat(
+...     model="safety.offensive",
+...     device="cpu"
+...     method="both" # ---> both, string-match, bert
+... )
+
+```
 <br><br>
 
 ## Special Tasks
