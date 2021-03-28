@@ -123,7 +123,7 @@ pip install openchat
 ...    length_penalty=0.6,                            
 ... )
 ```
-- For `safety.offensive` model, parametrt `method` must be one of `["both", "string-match", "bert"]`
+- For `safety.offensive` model, parameter `method` must be one of `["both", "string-match", "bert"]`
 ```python
 >>> from openchat import OpenChat
 >>> OpenChat(
