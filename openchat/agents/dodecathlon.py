@@ -71,4 +71,4 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
 
     @staticmethod
     def default_maxlen():
-        return 256
+        return 128

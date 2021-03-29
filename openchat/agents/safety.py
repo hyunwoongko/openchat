@@ -88,7 +88,7 @@ class OffensiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
 
     @staticmethod
     def default_maxlen():
-        return 512
+        return 128
 
 
 class SensitiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
@@ -123,7 +123,7 @@ class SensitiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
 
     @staticmethod
     def default_maxlen():
-        return 512
+        return 128
 
     def set_options(self, name, device):
         option = {}

@@ -39,7 +39,7 @@ class RedditAgent(ParlaiGenerationAgent, Seq2SeqLM):
 
     @staticmethod
     def default_maxlen():
-        return 256
+        return 128
 
     def set_options(self, name, device):
         option = {}
