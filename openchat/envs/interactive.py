@@ -1,13 +1,14 @@
 import random
 import sys
+import torch
 
-from openchat.base.agents.base import SingleTurn
-from openchat.base.agents.prompt import PromptAgent
 from openchat.base.envs.base import BaseEnvironment
 from openchat.base import (
     BaseAgent,
     ConvAI2Agent,
     WizardOfWikipediaAgent,
+    SingleTurn,
+    PromptAgent,
 )
 
 from openchat.utils.terminal_utils import (
@@ -43,6 +44,7 @@ class InteractiveEnvironment(BaseEnvironment):
         self.clear_histories(self.user_id)
 
         while True:
+            torch.cuda.empty_cache()
             if self.is_empty(self.user_id):
                 pre_dialog_output = self.pre_dialog_for_special_tasks(agent)
 
