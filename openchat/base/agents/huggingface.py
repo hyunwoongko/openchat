@@ -6,24 +6,6 @@ from openchat.base import BaseAgent, DecoderLM
 
 class HuggingfaceAgent(BaseAgent):
 
-    def __init__(
-        self,
-        name,
-        suffix,
-        device,
-        maxlen,
-        model,
-        tokenizer,
-    ):
-        super().__init__(
-            name=name,
-            suffix=suffix,
-            device=device,
-            maxlen=maxlen,
-            model=model,
-            tokenizer=tokenizer,
-        )
-
     @torch.no_grad()
     def predict(
         self,
@@ -34,6 +16,7 @@ class HuggingfaceAgent(BaseAgent):
         top_p: float = None,
         no_repeat_ngram_size: int = 4,
         length_penalty: int = 0.65,
+
     ) -> Dict[str, str]:
         """
         Generate utterance.
@@ -61,7 +44,7 @@ class HuggingfaceAgent(BaseAgent):
             return_tensors="pt",
         )["input_ids"].to(self.device)
 
-        output_ids = self.model.generate(
+        output_ids = self.model.predict(
             input_ids=input_ids,
             num_beams=num_beams,
             top_k=top_k if method == "top_k" else None,
@@ -71,6 +54,7 @@ class HuggingfaceAgent(BaseAgent):
             max_length=self.maxlen * 2,
             length_penalty=length_penalty,
             repetition_penalty=2.0,
+            use_cache=True,
         )
 
         if isinstance(self, DecoderLM):
