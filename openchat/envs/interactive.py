@@ -102,11 +102,7 @@ class InteractiveEnvironment(BaseEnvironment):
                 color=self.bot_color,
             )
 
-            if isinstance(agent, PromptAgent):
-                self.add_bot_message(self.user_id, bot_message)
-            else:
-                self.add_bot_message(self.user_id,
-                                     f"{bot_name}: {bot_message} ")
+            self.add_bot_message(self.user_id, bot_message)
 
     def pre_dialog_for_special_tasks(self, agent):
         if isinstance(agent, ConvAI2Agent):

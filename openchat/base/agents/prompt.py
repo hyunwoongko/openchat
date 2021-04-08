@@ -72,5 +72,5 @@ class PromptAgent(HuggingfaceAgent):
 
         return {
             "input": text,
-            "output": generated_text.split("\n")[0],
+            "output": generated_text.split("\n")[0].strip(),
         }

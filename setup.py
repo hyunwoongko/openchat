@@ -5,7 +5,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name='openchat',
-    version='1.1.5',
+    version='1.1.6',
     description='Opensource chatting framework for generative models',
     long_description=long_description,
     long_description_content_type='text/markdown',
