@@ -65,7 +65,7 @@ class PromptAgent(HuggingfaceAgent):
         generated_text = self.tokenizer.decode(
             output_ids[:, input_ids.shape[-1]:][0],
             skip_special_tokens=True,
-        )
+        ).strip()
 
         for escape in turn_escapes:
             generated_text = generated_text.replace(escape, "\n")
