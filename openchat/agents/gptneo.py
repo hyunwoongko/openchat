@@ -10,14 +10,14 @@ class GPTNeoAgent(PromptAgent, DecoderLM):
         model = self.check_agent(model)
         maxlen = maxlen if maxlen > 0 else self.default_maxlen()
 
-        if "small" in model:
-            size = "125M"
-        elif "medium" in model:
-            size = "350M"
-        elif "xlarge" in model:
+        if "xlarge" in model:
             size = "2.7B"
         elif "large" in model:
             size = "1.3B"
+        elif "small" in model:
+            size = "125M"
+        elif "medium" in model:
+            size = "350M"
         else:
             raise Exception("wrong model")
 
