@@ -13,12 +13,12 @@ class BlenderGenerationAgent(ConvAI2Agent, Seq2SeqLM):
             size = "90M"
         elif "medium" in model:
             size = "400Mdistill"
-        elif "large" in model:
-            size = "1Bdistill"
-        elif "xlarge" in model:
-            size = "3B"
         elif "xxlarge" in model:
             size = "9B"
+        elif "xlarge" in model:
+            size = "3B"
+        elif "large" in model:
+            size = "1Bdistill"
         else:
             raise Exception("wrong model")
 

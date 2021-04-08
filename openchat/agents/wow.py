@@ -12,8 +12,6 @@ class WizardOfWikipediaGenerationAgent(WizardOfWikipediaAgent, Seq2SeqLM):
 
         if "end2end_generator" in model:
             name = "end2end_generator"
-        elif "full_dialogue_retrieval_model" in model:
-            name = "full_dialogue_retrieval_model"
         else:
             raise Exception("wrong model")
 
