@@ -1,15 +1,14 @@
 import random
 import sys
-
 import torch
 
-from openchat.base.agents.base import SingleTurn
-from openchat.base.agents.prompt import PromptAgent
 from openchat.base.envs.base import BaseEnvironment
 from openchat.base import (
     BaseAgent,
     ConvAI2Agent,
     WizardOfWikipediaAgent,
+    SingleTurn,
+    PromptAgent,
 )
 
 from openchat.utils.terminal_utils import (
