@@ -14,10 +14,10 @@ class GPTNeoAgent(PromptAgent, DecoderLM):
             size = "125M"
         elif "medium" in model:
             size = "350M"
-        elif "large" in model:
-            size = "1.3B"
         elif "xlarge" in model:
             size = "2.7B"
+        elif "large" in model:
+            size = "1.3B"
         else:
             raise Exception("wrong model")
 

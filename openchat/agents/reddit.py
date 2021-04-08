@@ -10,10 +10,10 @@ class RedditAgent(ParlaiGenerationAgent, Seq2SeqLM):
         self.check_agent(model)
         maxlen = maxlen if maxlen > 0 else self.default_maxlen()
 
-        if "xlarge" in model:
-            size = "3B"
-        elif "xxlarge" in model:
+        if "xxlarge" in model:
             size = "9B"
+        elif "xlarge" in model:
+            size = "3B"
         else:
             raise Exception("wrong model")
 
