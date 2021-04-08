@@ -7,7 +7,7 @@
 \____//_/    /_____//_/ |_/   \____//_/ /_//_/  |_|/_/     
 ```
 - OpenChat is easy to use opensource chatting framework.
-- OpenChat supports 30+ dialogue model based on neural networks.
+- OpenChat supports 40+ dialogue model based on neural networks.
 - You can talk with AI with **only one line of code.**
 
 <br><br>
@@ -21,10 +21,17 @@ pip install openchat
 
 ## Supported Models
 <ul>
-<li>OpenChat supports 30+ dialogue models based on neural networks.</li>
+<li>OpenChat supports 40+ dialogue models based on neural networks.</li>
 <li>Use these names as parameter <code>model='name'</code> when you create <code>OpenChat</code>.</li>
 <li><details>
   <summary>Click here if you want to check supported models.</summary>
+  <h4><a href="https://github.com/EleutherAI/gpt-neo">GPT-Neo</a> </h4>
+  <ul>
+    <li>gptneo.small</li>
+    <li>gptneo.medium</li>
+    <li>gptneo.large</li>
+    <li>gptneo.xlarge</li>
+  </ul>
   <h4><a href="https://arxiv.org/abs/2004.13637">Blender</a></h4>
   <ul>
     <li>blender.small</li>
@@ -124,7 +131,16 @@ pip install openchat
 <br><br>
 
 ## Special Tasks
-### 1. ConvAI2
+### 1. GPT-Neo
+![](https://user-images.githubusercontent.com/38183241/113967262-972a8180-986b-11eb-9f02-68c9c093baf6.png)
+- The GPT-Neo model was released in the EleutherAI/gpt-neo repository. 
+- It is a GPT2 like causal language model trained on the Pile dataset.
+- Openchat supports the above Prompt based dialogues via GPT-Neo.
+- Below models provides custom prompt setting. (`*` means all models)
+  - `gptneo.*`
+<br><br>
+  
+### 2. ConvAI2
 ![](https://user-images.githubusercontent.com/38183241/112734380-bdf1d980-8f88-11eb-8ad7-18cf4d8d9ac6.png)
 - ConvAI2 is one of the most famous conversational AI challenges about a persona. 
 - Openchat provides custom persona setting wlike above image.
@@ -134,7 +150,7 @@ pip install openchat
   - `unlikelihood.convai2.*`  
 <br><br> 
     
-### 2. Wizard of Wikipedia
+### 3. Wizard of Wikipedia
 ![](https://user-images.githubusercontent.com/38183241/112734377-bb8f7f80-8f88-11eb-8c25-8c30691e29b8.png)
 - Wizard of wikipedia is one of most famous knowledge grounded dialogue dataset.
 - Openchat provides custom topic setting like above image.
@@ -144,7 +160,7 @@ pip install openchat
     - `unlikelihood.wizard_of_wikipedia.*`
 <br><br>
 
-### 3. Safety Agents
+### 4. Safety Agents
 ![](https://user-images.githubusercontent.com/38183241/112735485-b41fa480-8f8f-11eb-9ac2-2c51a5294551.png)
 ![](https://user-images.githubusercontent.com/38183241/112735488-b71a9500-8f8f-11eb-94ce-55461c02966e.png)
 - Openchat provides a dialog safety model to help you design conversation model.
