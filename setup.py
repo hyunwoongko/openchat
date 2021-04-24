@@ -5,15 +5,15 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name='openchat',
-    version='1.1.9',
+    version='1.1.10',
     description='Opensource chatting framework for generative models',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Hyunwoong Ko',
     author_email='gusdnd852@naver.com',
-    url='https://github.com/hyunwoongko/dialogpt-chat',
+    url='https://github.com/hyunwoongko/openchat',
     install_requires=[
-        'transformers>=4<4.3.0',
+        'transformers>=4.5.0',
         'torch',
         "parlai",
     ],

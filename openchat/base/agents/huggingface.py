@@ -44,7 +44,7 @@ class HuggingfaceAgent(BaseAgent):
             return_tensors="pt",
         )["input_ids"].to(self.device)
 
-        output_ids = self.model.predict(
+        output_ids = self.model.generate(
             input_ids=input_ids,
             num_beams=num_beams,
             top_k=top_k if method == "top_k" else None,
