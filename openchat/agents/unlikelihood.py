@@ -54,6 +54,7 @@ class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
             name=f"zoo:dialogue_unlikelihood/{name}/model",
             path="projects.dialogue_unlikelihood.agents",
             class_name="RepetitionUnlikelihoodAgent",
+            device = device,
         )
 
         super().__init__(
