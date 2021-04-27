@@ -17,7 +17,7 @@ from openchat.base import (
 
 class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
 
-    def __init__(self, model, device, maxlen=-1):
+    def __init__(self, model, device, maxlen=-1, **kwargs,):
         self.check_agent(model)
         maxlen = maxlen if maxlen > 0 else self.default_maxlen()
 
@@ -54,6 +54,8 @@ class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
             name=f"zoo:dialogue_unlikelihood/{name}/model",
             path="projects.dialogue_unlikelihood.agents",
             class_name="RepetitionUnlikelihoodAgent",
+            device = device,
+            **kwargs,
         )
 
         super().__init__(
