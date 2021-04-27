@@ -76,6 +76,7 @@ class ParlaiGenerationAgent(ParlaiAgent):
         top_p=None,
         no_repeat_ngram_size=4,
         length_penalty: int = 0.65,
+        gpu = -1,
     ) -> Dict[str, str]:
         assert method in ["greedy", "beam", "top_k", "nucleus"], \
             "param `method` must be one of ['greedy', 'beam'', 'top_k', 'nucleus']"
@@ -87,6 +88,7 @@ class ParlaiGenerationAgent(ParlaiAgent):
         self.model.opt["beam-block.ngram"] = no_repeat_ngram_size
         self.model.opt["beam-context-block-ngram"] = no_repeat_ngram_size
         self.model.opt["beam_length_penalty"] = length_penalty
+        self.model.opt["gpu"] = gpu
 
         message = Message({
             "text": text,
