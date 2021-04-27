@@ -62,7 +62,7 @@ class OpenChat(object):
         elif name == "whatsapp":
             raise NotImplemented
 
-    def create_agent_by_name(self, name, device, maxlen):
+    def create_agent_by_name(self, name, device, maxlen, **kwargs,):
         agent_name = name.split(".")[0]
 
         if agent_name == "blender":
@@ -76,7 +76,7 @@ class OpenChat(object):
         elif agent_name == "reddit":
             return RedditAgent(name, device, maxlen)
         elif agent_name == "unlikelihood":
-            return UnlikelihoodAgent(name, device, maxlen)
+            return UnlikelihoodAgent(name, device, maxlen, **kwargs,)
         elif agent_name == "wizard_of_wikipedia":
             return WizardOfWikipediaGenerationAgent(name, device, maxlen)
         elif agent_name == "safety":
