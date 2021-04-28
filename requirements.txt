@@ -1,0 +1,3 @@
+transformers>=4.5.0
+torch
+parlai==1.1.0
