@@ -36,9 +36,6 @@ class InteractiveEnvironment(BaseEnvironment):
 
     def start(self, agent: BaseAgent, **kwargs):
 
-        if 'gpu' in kwargs :
-            del kwargs['gpu']
-
         cprint(
             f"\n[SYSTEM]: Let's talk with [{agent.name.upper()}].\n"
             f"[SYSTEM]: Enter '.exit', if you want to exit chatting.\n"
