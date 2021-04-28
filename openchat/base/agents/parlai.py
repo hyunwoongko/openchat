@@ -99,7 +99,7 @@ class ParlaiGenerationAgent(ParlaiAgent):
         message["text_vec"] = vector
         message["full_text_vec"] = vector
         gpu = self.model.opt["gpu"]
-        if  gpu is not -1 :
+        if  gpu != -1 :
             batch = self.model.batchify([message]).to(gpu)
         else :
             batch = self.model.batchify([message])
