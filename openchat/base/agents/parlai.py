@@ -90,6 +90,10 @@ class ParlaiGenerationAgent(ParlaiAgent):
         self.model.opt["beam-context-block-ngram"] = no_repeat_ngram_size
         self.model.opt["beam_length_penalty"] = length_penalty
         self.model.opt["gpu"] = 0
+        self.model.opt["override"] = {
+            "no_cuda": False,
+            "gpu": 0,
+        }
 
         print(self.model.opt)
 
