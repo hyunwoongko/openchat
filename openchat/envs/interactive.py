@@ -37,7 +37,7 @@ class InteractiveEnvironment(BaseEnvironment):
     def start(self, agent: BaseAgent, **kwargs):
 
         if 'gpu' in kwargs :
-            kwargs.remove('gpu')
+            del kwargs['gpu']
 
         cprint(
             f"\n[SYSTEM]: Let's talk with [{agent.name.upper()}].\n"
