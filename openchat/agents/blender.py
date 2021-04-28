@@ -5,7 +5,7 @@ from openchat.base import ConvAI2Agent, Seq2SeqLM
 
 class BlenderGenerationAgent(ConvAI2Agent, Seq2SeqLM):
 
-    def __init__(self, model: str, device: str, maxlen: int) -> None:
+    def __init__(self, model: str, device: str, maxlen: int,  **kwargs,) -> None:
         model = self.check_agent(model)
         maxlen = maxlen if maxlen > 0 else self.default_maxlen()
 
@@ -25,6 +25,7 @@ class BlenderGenerationAgent(ConvAI2Agent, Seq2SeqLM):
         option = self.set_options(
             name=f"zoo:blender/blender_{size}/model",
             device=device,
+            **kwargs,
         )
 
         super().__init__(
