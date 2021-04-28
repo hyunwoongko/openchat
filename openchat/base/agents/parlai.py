@@ -105,6 +105,7 @@ class ParlaiGenerationAgent(ParlaiAgent):
             batch=batch,
             beam_size=num_beams,
             max_ts=self.maxlen,
+            gpu=0,
         )[0][0][0]
 
         return {
