@@ -95,6 +95,9 @@ class ParlaiGenerationAgent(ParlaiAgent):
             "gpu": 0,
         }
 
+        device = "cuda:0"
+        self.model = self.model.to(device)
+
         print(self.model.opt)
 
         message = Message({
