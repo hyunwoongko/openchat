@@ -99,6 +99,8 @@ class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
             "n_image_tokens": 1,
             "n_image_channels": 1,
             "image_fusion_type": "late",
+            "image_features_dim" : 2048,
+            "image_encoder_num_layers" : 1,
         }
         add_datapath_and_model_args(option)
         datapath = option.get('datapath')
