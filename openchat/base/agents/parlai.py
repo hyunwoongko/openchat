@@ -108,8 +108,8 @@ class ParlaiGenerationAgent(ParlaiAgent):
         message["text_vec"] = vector
         message["full_text_vec"] = vector
 
-        batch = self.model.batchify([message])
-        batch.to('cuda:0')
+        batch = self.model.batchify([message]).to(0)
+       
     
         tokens = self.model._generate(
             batch=batch,
