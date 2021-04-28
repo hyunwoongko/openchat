@@ -89,6 +89,7 @@ class ParlaiGenerationAgent(ParlaiAgent):
         self.model.opt["beam-block.ngram"] = no_repeat_ngram_size
         self.model.opt["beam-context-block-ngram"] = no_repeat_ngram_size
         self.model.opt["beam_length_penalty"] = length_penalty
+        self.model.opt["gpu"] = gpu
 
 
         message = Message({
