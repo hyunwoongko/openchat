@@ -14,6 +14,7 @@ class ParlaiAgent(BaseAgent):
         device,
         maxlen,
         model,
+        **kwargs,
     ):
         super(ParlaiAgent, self).__init__(
             name=name,
@@ -76,7 +77,7 @@ class ParlaiGenerationAgent(ParlaiAgent):
         top_p=None,
         no_repeat_ngram_size=4,
         length_penalty: int = 0.65,
-        gpu = -1,
+        gpu = 0,
     ) -> Dict[str, str]:
         assert method in ["greedy", "beam", "top_k", "nucleus"], \
             "param `method` must be one of ['greedy', 'beam'', 'top_k', 'nucleus']"
