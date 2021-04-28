@@ -95,6 +95,8 @@ class ParlaiGenerationAgent(ParlaiAgent):
             "gpu": 0,
         }
 
+        torch.device('cuda:0')
+
         print(self.model.opt)
 
         message = Message({
