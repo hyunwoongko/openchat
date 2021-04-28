@@ -92,7 +92,7 @@ class ParlaiGenerationAgent(ParlaiAgent):
         self.model.opt["gpu"] = 0
 
         print(self.model)
-        
+
         message = Message({
             "text": text,
             "full_text": text,
@@ -103,7 +103,7 @@ class ParlaiGenerationAgent(ParlaiAgent):
         message["full_text_vec"] = vector
 
         batch = self.model.batchify([message])
-        self.model.
+    
         tokens = self.model._generate(
             batch=batch,
             beam_size=num_beams,
