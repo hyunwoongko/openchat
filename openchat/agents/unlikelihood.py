@@ -107,6 +107,7 @@ class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
         option['model_file'] = modelzoo_path(datapath, name)
         option["override"] = {
             "no_cuda": False if "cuda" in device else True,
+            "gpu": 0,
         }
         my_module = importlib.import_module(path)
         model_class = getattr(my_module, class_name)
