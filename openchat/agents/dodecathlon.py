@@ -18,7 +18,7 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
         model = self.check_agent(model)
         maxlen = maxlen if maxlen > 0 else self.default_maxlen()
 
-        model = model + "_ft" if model != "all_tasks_mt" else model
+        #model = model + "_ft" if model != "all_tasks_mt" else model
         name = f"zoo:dodecadialogue/{model.split('.')[-1]}/model"
         option = self.set_options(name, device)
 
