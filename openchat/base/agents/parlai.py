@@ -77,6 +77,7 @@ class ParlaiGenerationAgent(ParlaiAgent):
         no_repeat_ngram_size=4,
         length_penalty: int = 0.65,
         gpu = -1,
+
     ) -> Dict[str, str]:
         assert method in ["greedy", "beam", "top_k", "nucleus"], \
             "param `method` must be one of ['greedy', 'beam'', 'top_k', 'nucleus']"
@@ -90,6 +91,7 @@ class ParlaiGenerationAgent(ParlaiAgent):
         self.model.opt["beam_length_penalty"] = length_penalty
         self.model.opt["gpu"] = gpu
 
+
         message = Message({
             "text": text,
             "full_text": text,
@@ -99,7 +101,11 @@ class ParlaiGenerationAgent(ParlaiAgent):
         message["text_vec"] = vector
         message["full_text_vec"] = vector
 
-        batch = self.model.batchify([message])
+        if gpu != -1 :
+            batch = self.model.batchify([message]).to(gpu)
+        else :
+            batch = self.model.batchify([message])
+
         tokens = self.model._generate(
             batch=batch,
             beam_size=num_beams,

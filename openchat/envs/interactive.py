@@ -35,6 +35,7 @@ class InteractiveEnvironment(BaseEnvironment):
         self.system_color = system_color
 
     def start(self, agent: BaseAgent, **kwargs):
+
         cprint(
             f"\n[SYSTEM]: Let's talk with [{agent.name.upper()}].\n"
             f"[SYSTEM]: Enter '.exit', if you want to exit chatting.\n"
