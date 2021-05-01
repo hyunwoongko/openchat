@@ -7,6 +7,7 @@ from openchat.agents.reddit import RedditAgent
 from openchat.agents.unlikelihood import UnlikelihoodAgent
 from openchat.agents.wow import WizardOfWikipediaGenerationAgent
 from openchat.envs.interactive import InteractiveEnvironment
+from openchat.envs.interactive_web import InteractiveWebEnvironment
 from openchat.utils.terminal_utils import draw_openchat
 
 
@@ -53,6 +54,8 @@ class OpenChat(object):
     def create_environment_by_name(self, name):
         if name == "interactive":
             return InteractiveEnvironment()
+        elif name == "interactive_web":
+            return InteractiveWebEnvironment()
         elif name == "webserver":
             raise NotImplemented
         elif name == "facebook":
@@ -114,6 +117,7 @@ class OpenChat(object):
     def available_environments():
         return [
             "interactive",
+            "interactive_web"
             # "webserver",
             # "facebook",
             # "kakaotalk",
