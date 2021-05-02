@@ -165,7 +165,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
                 bot_messages = bot_message.split(user_id + " :")
                 bot_messages = bot_messages[0].split(":")
-                self.add_bot_message(user_id, bot_message)
+                self.add_bot_message(user_id, bot_messages[0])
                 return bot_messages[0]
 
             except:
