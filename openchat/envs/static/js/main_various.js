@@ -92,7 +92,6 @@ function onSendButtonClicked() {
         return ;
     }
 
-
     userId = btoa(userId);
 
     sendMessage(messageText, 'right');
