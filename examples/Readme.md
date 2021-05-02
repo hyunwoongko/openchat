@@ -1,0 +1,1 @@
+Note, these are to give an example of how to use the GPU feature correctly.  GPU workloads need to understand which GPU id in cuda to pin the inputs, outputs, and models to so they don't cross between cpu and gpu.  They will not run directly in this examples directory and you'll need to move them up a level.
