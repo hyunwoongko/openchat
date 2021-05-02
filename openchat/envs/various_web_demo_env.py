@@ -9,7 +9,7 @@ from threading import Thread
 import time
 import traceback
 import re
-
+import gc
 from openchat.base.envs.base import BaseEnvironment
 from openchat.base import (
     BaseAgent,
@@ -73,6 +73,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
         # generate bot's message
         def generate(user_id, bot_id, user_message, topic, agent: str):
+            gc.enable()
+            torch.cuda.empty_cache()
             try:
                 # add new user
                 if user_id not in self.users:
@@ -143,6 +145,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 traceback.print_exc()
 
                 return "Error :("
+            finally:
+                gc.collect()
 
         ##
         # Sever health checking page.
