@@ -7,7 +7,6 @@ from openchat.agents.reddit import RedditAgent
 from openchat.agents.unlikelihood import UnlikelihoodAgent
 from openchat.agents.wow import WizardOfWikipediaGenerationAgent
 from openchat.envs.interactive import InteractiveEnvironment
-from openchat.envs.interactive_web import InteractiveWebEnvironment
 from openchat.utils.terminal_utils import draw_openchat
 
 
@@ -117,7 +116,6 @@ class OpenChat(object):
     def available_environments():
         return [
             "interactive",
-            "interactive_web"
             # "webserver",
             # "facebook",
             # "kakaotalk",
