@@ -140,6 +140,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
                     bot_message = agent_obj.predict(model_input, **kwargs)["output"]
                     if "A:" in bot_message :
                         bot_message = "I'm so sorry I didn't quite get that, can you repeat it?"
+                    if bot_message == "A" or bot_message == "A ":
+                        bot_message = "I'm so sorry I didn't quite get that, can you repeat it?"
                     self.add_bot_message(user_id, bot_message)
                 
                 bot_messages = bot_message.split(user_id+" :")
@@ -254,16 +256,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
     def pre_dialog_for_prompt(self, agent, user_id, bot_id, topic):
         agent.name = bot_id
 
-        '''
-        story = f'{user_id} and {bot_id} are talking about {topic}.'
-        story += f" {user_id} and {bot_id} start talking. "
-        story += f"{user_id}: Hello {bot_id}. "
-        story += f"{bot_id}: Hi {user_id}. "
-        '''
-        story = f'<name1> and <name2> are talking about {topic}.'
-        story += f" <name1> and <name2> start talking. "
-        story += f"<name1> : Hello <name2>. "
-        story += f"<name2> : Hi <name1>. "
+
+        story = topic
         
         agent.add_prompt(
             self.histories,
