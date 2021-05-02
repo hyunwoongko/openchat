@@ -143,6 +143,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                     self.add_bot_message(user_id, bot_message)
                 
                 bot_messages = bot_message.split(user_id+" :")
+                bot_messages = bot_messages[0].split(":")
 
                 return bot_messages[0]
 
@@ -196,7 +197,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 text = text.replace('>', '"')
 
                 bot_id = "OpenChatAI" # request.form['bot_id'].replace('<', '"').replace('>', '"')
-                topic = "I am OpenChatAI and I am chatting with " + user_id + " on the internet using an instant messaging application.  We are enjoying talking to each other."# request.form['topic'].replace('<', '"').replace('>', '"')
+                topic = "I am OpenChatAI and I am chatting with my friend " + user_id + " on the internet using an instant messaging application.  We are enjoying talking to each other."# request.form['topic'].replace('<', '"').replace('>', '"')
                 agent = request.form['agent']   # agent's name
 
             except Exception as e:
