@@ -199,7 +199,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 text = text.replace('>', '"')
 
                 bot_id = "OpenChatAI" # request.form['bot_id'].replace('<', '"').replace('>', '"')
-                topic = "I am OpenChatAI and I am chatting with my friend " + user_id + " on the internet using an instant messaging application.  We are enjoying talking to each other. Our conversation begins here ->"# request.form['topic'].replace('<', '"').replace('>', '"')
+                topic = "I am OpenChatAI and I am chatting with my friend " + user_id + " on the internet using an instant messaging application.  We are enjoying talking to each other. Our conversation begins here."# request.form['topic'].replace('<', '"').replace('>', '"')
                 agent = request.form['agent']   # agent's name
 
             except Exception as e:
