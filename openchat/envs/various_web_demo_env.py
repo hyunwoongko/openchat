@@ -138,6 +138,8 @@ class VariousWebServerEnvironment(BaseEnvironment):
                     #bot_message = bot_message.replace('<', '').replace('>', '')
                 else:
                     bot_message = agent_obj.predict(model_input, **kwargs)["output"]
+                    if "A:" in bot_message :
+                        bot_message = "I'm so sorry I didn't quite get that, can you repeat it?"
                     self.add_bot_message(user_id, bot_message)
                 
                 bot_messages = bot_message.split(user_id+" :")
