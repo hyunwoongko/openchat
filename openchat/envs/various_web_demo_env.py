@@ -121,7 +121,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
                         agent_obj,
                     )
 
-                self.add_user_message(user_id, user_message)
+                
 
                 if isinstance(agent_obj, PromptAgent):
                     bot_message = agent_obj.predict(
@@ -133,7 +133,7 @@ class VariousWebServerEnvironment(BaseEnvironment):
 
                     bot_message = remove_token.sub("", bot_message)
 
-                    self.add_bot_message(user_id, bot_message)
+
 
                     # bot_message = bot_message.replace('<name1>', user_id).replace('<name2>', bot_id)
                     # bot_message = bot_message.replace('<', '').replace('>', '')
