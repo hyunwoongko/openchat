@@ -2,7 +2,7 @@ import random
 import base64
 from collections import OrderedDict
 import torch
-
+import random
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from queue import Queue, Empty
@@ -148,24 +148,24 @@ class VariousWebServerEnvironment(BaseEnvironment):
                                 "I don't always understand what you tell me, can you restate that?",
                                 "I seem to be confused, can you try again?",
                                 "I don't understand that exactly, can you rephrase it?"]
-                    import random
+
                     index = random.randint(0, 7)
                     if "A:" in bot_message:
                         bot_message = confused[index]
-                        self.add_bot_message(user_id, bot_message)
+
                     if bot_message == "A" or bot_message == "A ":
                         bot_message = confused[index]
-                        self.add_bot_message(user_id, bot_message)
+
                     if "????" in bot_message:
                         bot_message = confused[index]
-                        self.add_bot_message(user_id, bot_message)
+
                     if len(bot_message) == 0 :
                         bot_message = confused[index]
-                        self.add_bot_message(user_id, bot_message)
+
 
                 bot_messages = bot_message.split(user_id + " :")
                 bot_messages = bot_messages[0].split(":")
-
+                self.add_bot_message(user_id, bot_message)
                 return bot_messages[0]
 
             except:
