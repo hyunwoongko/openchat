@@ -60,14 +60,12 @@ function greet() {
 }
 
 
-function requestChat(userId, botId, topic, messageText, agent) {
+function requestChat(userId, messageText, agent) {
     $.ajax({
         url: "/send/" + userId,
         type: "POST",
         dataType: "json",
         data: {"text": messageText,
-               "bot_id": botId,
-               "topic": topic,
                "agent": agent},
 
         success: function (data) {
@@ -87,25 +85,16 @@ function requestChat(userId, botId, topic, messageText, agent) {
 function onSendButtonClicked() {
     let messageText = getMessageText();
     let userId = document.getElementById("userId").value;
-    let botId = document.getElementById("botId").value;
-    let topic = document.getElementById("topic").value;
     let agent = document.getElementById("agent").value;
 
     if (userId == '') {
         document.getElementById('warning').innerText = 'Please fill Nickname!';
         return ;
     }
-    else if (botId == '') {
-        document.getElementById('warning').innerText = 'Please fill bot name!';
-        return ;
-    }
-    else if (topic == '') {
-        document.getElementById('warning').innerText = 'Please fill topic!';
-        return ;
-    }
+
 
     userId = btoa(userId);
 
     sendMessage(messageText, 'right');
-    return requestChat(userId, botId, topic, messageText, agent);
+    return requestChat(userId, messageText, agent);
 }
