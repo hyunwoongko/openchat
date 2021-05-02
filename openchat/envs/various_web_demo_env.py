@@ -139,8 +139,10 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 else:
                     bot_message = agent_obj.predict(model_input, **kwargs)["output"]
                     self.add_bot_message(user_id, bot_message)
+                
+                bot_messages = bot_message.split(user_id+" :")
 
-                return bot_message
+                return bot_messages[0]
 
             except:
                 traceback.print_exc()
