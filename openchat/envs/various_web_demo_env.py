@@ -152,11 +152,16 @@ class VariousWebServerEnvironment(BaseEnvironment):
                     index = random.randint(0, 7)
                     if "A:" in bot_message:
                         bot_message = confused[index]
+                        self.add_bot_message(user_id, bot_message)
                     if bot_message == "A" or bot_message == "A ":
                         bot_message = confused[index]
-                    self.add_bot_message(user_id, bot_message)
+                        self.add_bot_message(user_id, bot_message)
                     if "????" in bot_message:
                         bot_message = confused[index]
+                        self.add_bot_message(user_id, bot_message)
+                    if len(bot_message) == 0 :
+                        bot_message = confused[index]
+                        self.add_bot_message(user_id, bot_message)
 
                 bot_messages = bot_message.split(user_id + " :")
                 bot_messages = bot_messages[0].split(":")
