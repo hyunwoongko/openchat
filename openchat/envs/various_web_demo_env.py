@@ -140,29 +140,27 @@ class VariousWebServerEnvironment(BaseEnvironment):
                 else:
                     bot_message = agent_obj.predict(model_input, **kwargs)["output"]
 
-                    confused = ["I'm so sorry I didn't quite get that, can you repeat it?",
-                                "I got a bit distracted, what was that again?",
-                                "I am having trouble understanding that, can you say it again differently?",
-                                "I didn't process that one correctly, can you try again?",
-                                "I am having a bit of trouble, can you type that again please?",
-                                "I don't always understand what you tell me, can you restate that?",
-                                "I seem to be confused, can you try again?",
-                                "I don't understand that exactly, can you rephrase it?"]
+                confused = ["I'm so sorry I didn't quite get that, can you repeat it?",
+                            "I got a bit distracted, what was that again?",
+                            "I am having trouble understanding that, can you say it again differently?",
+                            "I didn't process that one correctly, can you try again?",
+                            "I am having a bit of trouble, can you type that again please?",
+                            "I don't always understand what you tell me, can you restate that?",
+                            "I seem to be confused, can you try again?",
+                            "I don't understand that exactly, can you rephrase it?"]
+                
+                index = random.randint(0, 7)
+                if "A:" in bot_message:
+                    bot_message = confused[index]
 
-                    index = random.randint(0, 7)
-                    if "A:" in bot_message:
-                        bot_message = confused[index]
+                if bot_message == "A" or bot_message == "A ":
+                    bot_message = confused[index]
 
-                    if bot_message == "A" or bot_message == "A ":
-                        bot_message = confused[index]
+                if "????" in bot_message:
+                    bot_message = confused[index]
 
-                    if "????" in bot_message:
-                        bot_message = confused[index]
-
-                    if len(bot_message) == 0 :
-                        bot_message = confused[index]
-
-
+                if len(bot_message) == 0:
+                    bot_message = confused[index]
                 bot_messages = bot_message.split(user_id + " :")
                 bot_messages = bot_messages[0].split(":")
                 self.add_bot_message(user_id, bot_messages[0])
