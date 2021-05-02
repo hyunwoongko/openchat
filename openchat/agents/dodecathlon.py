@@ -18,7 +18,7 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
         model = self.check_agent(model)
         maxlen = maxlen if maxlen > 0 else self.default_maxlen()
 
-        #model = model + "_ft" if model != "all_tasks_mt" else model
+        model = model + "_ft" if model != "all_tasks_mt" else model
         name = f"zoo:dodecadialogue/{model.split('.')[-1]}/model"
         option = self.set_options(name, device)
 
@@ -63,7 +63,6 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
 
         add_datapath_and_model_args(option)
         datapath = option.get("datapath")
-        print(name)
         option['model_file'] = modelzoo_path(datapath, name)
         option["override"] = {
             "no_cuda": False if "cuda" in device else True,
