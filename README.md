@@ -117,7 +117,7 @@ pip install openchat
 >>> OpenChat(model="blender.medium", device="cuda:2")  # <--- use 3rd GPU
 >>> OpenChat(model="blender.medium", device="cuda:0")  # <--- use 1st GPU
 ```
-
+<br><br>
 
 - Set `**kwargs` if you want to change decoding options.
   - method (str): one of `["greedy", "beam", "top_k", "nucleus"]`,
@@ -138,6 +138,7 @@ pip install openchat
 ...    length_penalty=0.6,                            
 ... )
 ```
+
 - For `safety.offensive` model, parameter `method` must be one of `["both", "string-match", "bert"]`
 ```python
 >>> from openchat import OpenChat
