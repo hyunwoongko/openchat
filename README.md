@@ -111,6 +111,14 @@ pip install openchat
 ```
 <br><br>
 
+- Set param `device='cuda:n'` If you want to use a specific GPU.
+```python
+>>> from openchat import OpenChat
+>>> OpenChat(model="blender.medium", device="cuda:2")  # <--- use 3rd GPU
+>>> OpenChat(model="blender.medium", device="cuda:0")  # <--- use 1st GPU
+```
+
+
 - Set `**kwargs` if you want to change decoding options.
   - method (str): one of `["greedy", "beam", "top_k", "nucleus"]`,
   - num_beams (int): size of beam search 
