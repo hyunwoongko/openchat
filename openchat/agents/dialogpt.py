@@ -16,7 +16,7 @@ class DialoGPTAgent(HuggingfaceAgent, DecoderLM):
             suffix="<|endoftext|>",
             device=device,
             maxlen=maxlen,
-            model=GPT2LMHeadModel.from_pretrained(name),
+            model=GPT2LMHeadModel.from_pretrained(name).to(device).eval(),
             tokenizer=tokenizer,
         )
 

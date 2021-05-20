@@ -20,7 +20,7 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
 
         model = model + "_ft" if model != "all_tasks_mt" else model
         name = f"zoo:dodecadialogue/{model.split('.')[-1]}/model"
-        option = self.set_options(name)
+        option = self.set_options(name, device)
 
         super().__init__(
             name=model,
@@ -54,7 +54,7 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
             "dodecathlon.daily_dialog",
         ]
 
-    def set_options(self, name):
+    def set_options(self, name, device):
         option = {
             "n_image_tokens": 1,
             "n_image_channels": 1,
@@ -64,8 +64,12 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
         add_datapath_and_model_args(option)
         datapath = option.get("datapath")
         option['model_file'] = modelzoo_path(datapath, name)
+        option["override"] = {
+            "no_cuda": False if "cuda" in device else True,
+            "gpu": 0,
+        }
         return option
 
     @staticmethod
     def default_maxlen():
-        return 256
+        return 128

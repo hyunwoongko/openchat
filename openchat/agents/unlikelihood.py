@@ -17,7 +17,7 @@ from openchat.base import (
 
 class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
 
-    def __init__(self, model, device, maxlen=-1):
+    def __init__(self, model, device, maxlen=-1, **kwargs,):
         self.check_agent(model)
         maxlen = maxlen if maxlen > 0 else self.default_maxlen()
 
@@ -54,6 +54,8 @@ class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
             name=f"zoo:dialogue_unlikelihood/{name}/model",
             path="projects.dialogue_unlikelihood.agents",
             class_name="RepetitionUnlikelihoodAgent",
+            device = device,
+            **kwargs,
         )
 
         super().__init__(
@@ -92,19 +94,24 @@ class UnlikelihoodAgent(ParlaiGenerationAgent, Seq2SeqLM):
             "unlikelihood.eli5.label",
         ]
 
-    def set_options(self, name, path, class_name):
+    def set_options(self, name, path, class_name, device):
         option = {
             "n_image_tokens": 1,
             "n_image_channels": 1,
             "image_fusion_type": "late",
+            "image_features_dim" : 2048,
+            "image_encoder_num_layers" : 1,
         }
         add_datapath_and_model_args(option)
         datapath = option.get('datapath')
         option['model_file'] = modelzoo_path(datapath, name)
+        option["override"] = {
+            "no_cuda": False if "cuda" in device else True,
+        }
         my_module = importlib.import_module(path)
         model_class = getattr(my_module, class_name)
         return option, model_class
 
     @staticmethod
     def default_maxlen():
-        return 256
+        return 128

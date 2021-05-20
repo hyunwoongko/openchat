@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Union, Dict
+from typing import Dict, List, Union
 from parlai.core.message import Message
 from openchat.base import BaseAgent
 import torch
@@ -15,9 +15,6 @@ class ParlaiAgent(BaseAgent):
         maxlen,
         model,
     ):
-        if model:
-            model.model = model.model.eval().to(device)
-
         super(ParlaiAgent, self).__init__(
             name=name,
             suffix=suffix,
@@ -27,16 +24,25 @@ class ParlaiAgent(BaseAgent):
             tokenizer=self.tokenizer,
         )
 
-    def tokenizer(self, message: Union[Message, str]):
+    def tokenizer(self, message: Union[str, List[str]], padding=False):
         if isinstance(message, str):
-            message = Message({
-                "text": message,
-                "full_text": message,
-            })
+            return {"input_ids": self.model.dict.txt2vec(message)}
+        elif isinstance(message, list):
+            if all(isinstance(s, str) for s in message):
+                tokens = [self.model.dict.txt2vec(s) for s in message]
 
-        history = self.model.build_history()
-        history.update_history(message)
-        return {"input_ids": history.get_history_vec()}
+                if padding:
+                    tokens = self.model._pad_tensor(tokens)[0]
+
+                return {"input_ids": tokens}
+            else:
+                raise TypeError(
+                    f"type error: {type(message)}, input type must be one of [str, List[str]]"
+                )
+        else:
+            raise TypeError(
+                f"type error: {type(message)}, input type must be one of [str, List[str]]"
+            )
 
 
 class ParlaiClassificationAgent(ParlaiAgent):
@@ -46,17 +52,12 @@ class ParlaiClassificationAgent(ParlaiAgent):
         raise NotImplemented
 
     def predict(self, text: str, **kwargs):
-        message = Message({
-            "text": text,
-            "full_text": text,
-        })
-
-        message["text_vec"] = self.tokenizer(message)['input_ids']
-        message["full_text_vec"] = message["text_vec"]
+        message = self.tokenizer(text)
         batch = self.model.batchify([message])
 
         output = self.model.score(batch)[0].tolist()
         argmax = max(range(len(output)), key=lambda i: output[i])
+
         return {
             "input": text,
             "output": self.labels()[argmax],
@@ -75,6 +76,8 @@ class ParlaiGenerationAgent(ParlaiAgent):
         top_p=None,
         no_repeat_ngram_size=4,
         length_penalty: int = 0.65,
+        gpu = -1,
+
     ) -> Dict[str, str]:
         assert method in ["greedy", "beam", "top_k", "nucleus"], \
             "param `method` must be one of ['greedy', 'beam'', 'top_k', 'nucleus']"
@@ -86,15 +89,22 @@ class ParlaiGenerationAgent(ParlaiAgent):
         self.model.opt["beam-block.ngram"] = no_repeat_ngram_size
         self.model.opt["beam-context-block-ngram"] = no_repeat_ngram_size
         self.model.opt["beam_length_penalty"] = length_penalty
+        self.model.opt["gpu"] = gpu
+
 
         message = Message({
             "text": text,
             "full_text": text,
         })
 
-        message["text_vec"] = self.tokenizer(message)["input_ids"]
-        message["full_text_vec"] = message["text_vec"]
-        batch = self.model.batchify([message])
+        vector = self.tokenizer(text)["input_ids"]
+        message["text_vec"] = vector
+        message["full_text_vec"] = vector
+
+        if gpu != -1 :
+            batch = self.model.batchify([message]).to(gpu)
+        else :
+            batch = self.model.batchify([message])
 
         tokens = self.model._generate(
             batch=batch,

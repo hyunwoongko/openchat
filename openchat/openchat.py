@@ -1,11 +1,12 @@
 from openchat.agents.blender import BlenderGenerationAgent
 from openchat.agents.dialogpt import DialoGPTAgent
 from openchat.agents.dodecathlon import DodecathlonAgent
+from openchat.agents.gptneo import GPTNeoAgent
 from openchat.agents.safety import OffensiveAgent, SensitiveAgent
 from openchat.agents.reddit import RedditAgent
 from openchat.agents.unlikelihood import UnlikelihoodAgent
 from openchat.agents.wow import WizardOfWikipediaGenerationAgent
-from openchat.envs.terminal import TerminalEnvironment
+from openchat.envs.interactive import InteractiveEnvironment
 from openchat.utils.terminal_utils import draw_openchat
 
 
@@ -16,8 +17,8 @@ class OpenChat(object):
         model,
         device,
         maxlen=-1,
-        environment="terminal",
-        **kwargs,
+        environment="interactive",
+        gpu=-1,
     ):
         draw_openchat()
         self.agent = self.check_agent(model)
@@ -27,9 +28,13 @@ class OpenChat(object):
             maxlen=maxlen,
         )
 
+        if "cuda" in device:
+            if gpu == -1:
+                gpu = 0
+                
         self.environment = self.check_environment(environment)
         self.environment = self.create_environment_by_name(environment)
-        self.environment.start(self.agent, **kwargs)
+        self.environment.start(self.agent, gpu=gpu)
 
     def check_agent(self, model) -> str:
         model = model.lower()
@@ -50,8 +55,10 @@ class OpenChat(object):
         return env
 
     def create_environment_by_name(self, name):
-        if name == "terminal":
-            return TerminalEnvironment()
+        if name == "interactive":
+            return InteractiveEnvironment()
+        elif name == "interactive_web":
+            return InteractiveWebEnvironment()
         elif name == "webserver":
             raise NotImplemented
         elif name == "facebook":
@@ -61,11 +68,13 @@ class OpenChat(object):
         elif name == "whatsapp":
             raise NotImplemented
 
-    def create_agent_by_name(self, name, device, maxlen):
+    def create_agent_by_name(self, name, device, maxlen, **kwargs,):
         agent_name = name.split(".")[0]
 
         if agent_name == "blender":
             return BlenderGenerationAgent(name, device, maxlen)
+        elif agent_name == "gptneo":
+            return GPTNeoAgent(name, device, maxlen)
         elif agent_name == "dialogpt":
             return DialoGPTAgent(name, device, maxlen)
         elif agent_name == "dodecathlon":
@@ -73,7 +82,7 @@ class OpenChat(object):
         elif agent_name == "reddit":
             return RedditAgent(name, device, maxlen)
         elif agent_name == "unlikelihood":
-            return UnlikelihoodAgent(name, device, maxlen)
+            return UnlikelihoodAgent(name, device, maxlen, **kwargs,)
         elif agent_name == "wizard_of_wikipedia":
             return WizardOfWikipediaGenerationAgent(name, device, maxlen)
         elif agent_name == "safety":
@@ -91,6 +100,7 @@ class OpenChat(object):
         agents = [
             BlenderGenerationAgent,
             DialoGPTAgent,
+            GPTNeoAgent,
             DodecathlonAgent,
             RedditAgent,
             SensitiveAgent,
@@ -109,7 +119,7 @@ class OpenChat(object):
     @staticmethod
     def available_environments():
         return [
-            "terminal",
+            "interactive",
             # "webserver",
             # "facebook",
             # "kakaotalk",
