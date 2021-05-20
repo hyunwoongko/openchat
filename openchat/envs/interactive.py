@@ -96,11 +96,10 @@ class InteractiveEnvironment(BaseEnvironment):
                     model_input,
                     person_1=user_name,
                     person_2=bot_name,
-                    **kwargs,
                 )["output"]
 
             else:
-                bot_message = agent.predict(model_input, **kwargs)["output"]
+                bot_message = agent.predict(model_input)["output"]
 
             cprint(
                 f"[{agent.name.upper()}]: {bot_message}",
