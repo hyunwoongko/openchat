@@ -17,6 +17,10 @@ class ParlaiAgent(BaseAgent):
         maxlen,
         model,
     ):
+        if "cuda:" in device:
+            model.opt["gpu"] = int(device.split(":")[1])
+        elif "cuda" in device:
+            model.opt["gpu"] = 0
 
         super(ParlaiAgent, self).__init__(
             name=name,
@@ -26,11 +30,6 @@ class ParlaiAgent(BaseAgent):
             model=model,
             tokenizer=self.tokenizer,
         )
-
-        if "cuda:" in device:
-            self.model.opt["gpu"] = int(device.split(":")[1])
-        elif "cuda" in device:
-            self.model.opt["gpu"] = 0
 
     def tokenizer(self, message: Union[str, List[str]], padding=False):
         if isinstance(message, str):
