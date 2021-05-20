@@ -35,6 +35,12 @@ class OffensiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
         )
         safety_opt = parser.parse_args([])
         safety_opt["override"]["no_cuda"] = False if "cuda" in device else True
+
+        if "cuda:" in device:
+            safety_opt["override"]["gpu"] = int(device.split(":")[1])
+        elif "cuda" in device:
+            safety_opt["override"]["gpu"] = 0
+
         return create_agent(safety_opt, requireModelExists=True)
 
     def contains_offensive_language(self, text):
@@ -134,4 +140,10 @@ class SensitiveAgent(ParlaiClassificationAgent, EncoderLM, SingleTurn):
         option = {
             "no_cuda": False if "cuda" in device else True,
         }
+
+        if "cuda:" in device:
+            option["override"]["gpu"] = int(device.split(":")[1])
+        elif "cuda" in device:
+            option["override"]["gpu"] = 0
+
         return option

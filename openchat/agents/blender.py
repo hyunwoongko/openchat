@@ -5,7 +5,7 @@ from openchat.base import ConvAI2Agent, Seq2SeqLM
 
 class BlenderGenerationAgent(ConvAI2Agent, Seq2SeqLM):
 
-    def __init__(self, model: str, device: str, maxlen: int,  **kwargs,) -> None:
+    def __init__(self, model: str, device: str, maxlen: int) -> None:
         model = self.check_agent(model)
         maxlen = maxlen if maxlen > 0 else self.default_maxlen()
 
@@ -25,7 +25,6 @@ class BlenderGenerationAgent(ConvAI2Agent, Seq2SeqLM):
         option = self.set_options(
             name=f"zoo:blender/blender_{size}/model",
             device=device,
-            **kwargs,
         )
 
         super().__init__(
@@ -58,4 +57,10 @@ class BlenderGenerationAgent(ConvAI2Agent, Seq2SeqLM):
         option["override"] = {
             "no_cuda": False if "cuda" in device else True,
         }
+
+        if "cuda:" in device:
+            option["override"]["gpu"] = int(device.split(":")[1])
+        elif "cuda" in device:
+            option["override"]["gpu"] = 0
+
         return option

@@ -27,7 +27,6 @@ class PromptAgent(HuggingfaceAgent):
         length_penalty=0.7,
         diverse_penalty=1.5,
         no_repeat_ngram_size=4,
-        **kwargs,
     ):
 
         input_ids = self.tokenizer(
@@ -50,7 +49,6 @@ class PromptAgent(HuggingfaceAgent):
             early_stopping=True,
             pad_token_id=self.tokenizer.eos_token_id,
             max_length=input_ids.size()[-1] + self.maxlen // 2,
-            **kwargs,
         )
 
         turn_escapes = [

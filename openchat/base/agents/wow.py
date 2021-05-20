@@ -101,7 +101,6 @@ class WizardOfWikipediaAgent(ParlaiGenerationAgent):
         top_p=None,
         no_repeat_ngram_size=4,
         length_penalty=0.65,
-        gpu = -1
     ) -> Dict[str, str]:
         if not self.chosen_topic:
             raise Exception(
@@ -117,6 +116,4 @@ class WizardOfWikipediaAgent(ParlaiGenerationAgent):
             top_p=top_p,
             no_repeat_ngram_size=no_repeat_ngram_size,
             length_penalty=length_penalty,
-            gpu=gpu,
-
         )

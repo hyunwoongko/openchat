@@ -43,4 +43,10 @@ class WizardOfWikipediaGenerationAgent(WizardOfWikipediaAgent, Seq2SeqLM):
         option["override"] = {
             "no_cuda": False if "cuda" in device else True,
         }
+
+        if "cuda:" in device:
+            option["override"]["gpu"] = int(device.split(":")[1])
+        elif "cuda" in device:
+            option["override"]["gpu"] = 0
+
         return option

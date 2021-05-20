@@ -18,7 +18,6 @@ class OpenChat(object):
         device,
         maxlen=-1,
         environment="interactive",
-        gpu=-1,
     ):
         draw_openchat()
         self.agent = self.check_agent(model)
@@ -28,13 +27,9 @@ class OpenChat(object):
             maxlen=maxlen,
         )
 
-        if "cuda" in device:
-            if gpu == -1:
-                gpu = 0
-                
         self.environment = self.check_environment(environment)
         self.environment = self.create_environment_by_name(environment)
-        self.environment.start(self.agent, gpu=gpu)
+        self.environment.start(self.agent)
 
     def check_agent(self, model) -> str:
         model = model.lower()
@@ -68,7 +63,7 @@ class OpenChat(object):
         elif name == "whatsapp":
             raise NotImplemented
 
-    def create_agent_by_name(self, name, device, maxlen, **kwargs,):
+    def create_agent_by_name(self, name, device, maxlen):
         agent_name = name.split(".")[0]
 
         if agent_name == "blender":
@@ -82,7 +77,7 @@ class OpenChat(object):
         elif agent_name == "reddit":
             return RedditAgent(name, device, maxlen)
         elif agent_name == "unlikelihood":
-            return UnlikelihoodAgent(name, device, maxlen, **kwargs,)
+            return UnlikelihoodAgent(name, device, maxlen)
         elif agent_name == "wizard_of_wikipedia":
             return WizardOfWikipediaGenerationAgent(name, device, maxlen)
         elif agent_name == "safety":

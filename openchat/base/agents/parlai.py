@@ -1,8 +1,10 @@
 from abc import abstractmethod
 from typing import Dict, List, Union
-from parlai.core.message import Message
-from openchat.base import BaseAgent
+
 import torch
+from parlai.core.message import Message
+
+from openchat.base import BaseAgent
 
 
 class ParlaiAgent(BaseAgent):
@@ -15,6 +17,12 @@ class ParlaiAgent(BaseAgent):
         maxlen,
         model,
     ):
+
+        if "cuda:" in device:
+            self.model.opt["gpu"] = int(device.split(":")[1])
+        elif "cuda" in device:
+            self.model.opt["gpu"] = 0
+
         super(ParlaiAgent, self).__init__(
             name=name,
             suffix=suffix,
@@ -76,8 +84,6 @@ class ParlaiGenerationAgent(ParlaiAgent):
         top_p=None,
         no_repeat_ngram_size=4,
         length_penalty: int = 0.65,
-        gpu = -1,
-
     ) -> Dict[str, str]:
         assert method in ["greedy", "beam", "top_k", "nucleus"], \
             "param `method` must be one of ['greedy', 'beam'', 'top_k', 'nucleus']"
@@ -89,8 +95,6 @@ class ParlaiGenerationAgent(ParlaiAgent):
         self.model.opt["beam-block.ngram"] = no_repeat_ngram_size
         self.model.opt["beam-context-block-ngram"] = no_repeat_ngram_size
         self.model.opt["beam_length_penalty"] = length_penalty
-        self.model.opt["gpu"] = gpu
-
 
         message = Message({
             "text": text,
@@ -101,9 +105,9 @@ class ParlaiGenerationAgent(ParlaiAgent):
         message["text_vec"] = vector
         message["full_text_vec"] = vector
 
-        if gpu != -1 :
-            batch = self.model.batchify([message]).to(gpu)
-        else :
+        if "cuda" in self.device:
+            batch = self.model.batchify([message]).to(self.model.opt["gpu"])
+        else:
             batch = self.model.batchify([message])
 
         tokens = self.model._generate(

@@ -35,7 +35,7 @@ class InteractiveEnvironment(BaseEnvironment):
         self.special_color = special_color
         self.system_color = system_color
 
-    def start(self, agent: BaseAgent, **kwargs):
+    def start(self, agent: BaseAgent):
 
         cprint(
             f"\n[SYSTEM]: Let's talk with [{agent.name.upper()}].\n"

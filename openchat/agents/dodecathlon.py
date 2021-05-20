@@ -66,8 +66,13 @@ class DodecathlonAgent(ParlaiGenerationAgent, Seq2SeqLM):
         option['model_file'] = modelzoo_path(datapath, name)
         option["override"] = {
             "no_cuda": False if "cuda" in device else True,
-            "gpu": 0,
         }
+
+        if "cuda:" in device:
+            option["override"]["gpu"] = int(device.split(":")[1])
+        elif "cuda" in device:
+            option["override"]["gpu"] = 0
+
         return option
 
     @staticmethod

@@ -16,7 +16,6 @@ class HuggingfaceAgent(BaseAgent):
         top_p: float = None,
         no_repeat_ngram_size: int = 4,
         length_penalty: int = 0.65,
-
     ) -> Dict[str, str]:
         """
         Generate utterance.
