@@ -188,21 +188,7 @@ pip install openchat
 - Below models provides dialog safety features.
   - `safety.offensive`: offensive words classification
   - `safety.sensitive`: sensitive topic classification
-<br><br>
 
-## Update plan
-- Openchat is not a finished, but a growing library.
-- I plan to add the following features in the near future.
-
-### Plan by versions.
-- [X] v1.0: Support `huggingface transformers` for DialoGPT and Blender.
-- [X] v1.1: Support `parlai` for various dialogue generation tasks.
-- [ ] v1.2: Support `pytorch-lightning` for fine-tuning using GPU & TPU.
-- [ ] v1.3: Support `deepspeed` for huge model inference like Reddit 9.4B.
-- [ ] v1.4: Add Retrieval-based dialogue models.
-- [ ] v1.5: Add `non-parlai` models (e.g. Baidu PLATO-2, ...)
-- [ ] v1.6: Easy deployment to messengers (e.g. Facebook, Whatsapp, ...)
-- [ ] v1.7: Support database (e.g. PostgreSQL, MySQL, ...)
 <br><br>
       
 ## License
